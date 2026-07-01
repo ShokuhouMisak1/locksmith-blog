@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自己写说明书的锁匠 — The Locksmith That Wrote Its Own Manual</title>
+<meta name="description" content="一个 AI 被扔进没有说明书的游戏世界，自己把规则写成一本手册；卡住时它回头查这本手册，赢了。拿到标准答案却没有手册的克隆体，做不到。">
+<style>
+:root{
+  --paper:#f7f3ec; --ink:#221f1a; --ink2:#57503f; --line:#e2daca;
+  --crimson:#b23a2e; --blue:#2456a6; --amber:#f2b13d;
+  --wb:#14161a; --wbbar:#0c0d10; --wbtext:#ccd5df; --wbdim:#8a94a2;
+  --serif:"Source Han Serif SC","Noto Serif SC","Songti SC",STSong,serif;
+  --mono:"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+  font-size:17.5px;line-height:1.95;letter-spacing:.01em;
+  text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+main{max-width:740px;margin:0 auto;padding:0 22px 90px}
+p{margin:1.15em 0}
+a{color:var(--blue);text-decoration:none;border-bottom:1px solid #b9c7e0}
+a:hover{border-bottom-color:var(--blue)}
+em{font-style:normal;text-emphasis:dot;-webkit-text-emphasis:dot}
+strong{font-weight:700}
+h1,h2{font-weight:800;line-height:1.35;letter-spacing:.02em}
+section{margin-top:96px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--ink2);
+  text-transform:uppercase;margin-bottom:10px}
+.kicker b{color:var(--crimson);font-weight:600}
+h2{font-size:28px;margin:6px 0 26px}
+h2 .no{font-family:var(--mono);font-weight:400;font-size:15px;color:var(--crimson);
+  margin-right:14px;vertical-align:.18em;letter-spacing:.1em}
+/* 单句段（节拍器） */
+.beat{margin:1.6em 0;font-size:19px;font-weight:700}
+/* 设问转场 */
+.q{margin:1.8em 0;font-size:19px;font-style:italic;color:var(--ink)}
+/* 落点 insight 行 */
+.insight{margin:2.2em 0 0;padding:2px 0 2px 18px;border-left:3px solid var(--crimson);
+  font-size:19px;font-weight:700;line-height:1.8}
+/* 工作台（手册的一页） */
+.wb{margin:1.9em 0;background:var(--wb);border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 0 rgba(0,0,0,.25),0 12px 34px -18px rgba(20,22,26,.55)}
+.wb .bar{display:flex;align-items:center;gap:8px;background:var(--wbbar);
+  padding:8px 14px;font-family:var(--mono);font-size:11.5px;color:var(--wbdim);
+  letter-spacing:.04em}
+.wb .bar i{width:8px;height:8px;border-radius:50%;background:#3fb950;flex:none}
+.wb .bar.dead i{background:#f85149}
+.wb pre{margin:0;padding:16px 18px;font-family:var(--mono);font-size:12.8px;
+  line-height:1.75;color:var(--wbtext);white-space:pre-wrap;word-break:break-word}
+.wb pre b{color:#ffd28a;font-weight:600}
+.wb pre .hot{color:#ff9d8f;font-weight:600}
+.wb .tr{padding:10px 18px 13px;border-top:1px dashed #2a2e35;font-size:14px;
+  color:#b9ab88;line-height:1.8}
+.wb .tr::before{content:"译 ";font-family:var(--mono);font-size:11px;color:#6d7686;
+  letter-spacing:.2em;margin-right:6px}
+/* 图与注 */
+figure{margin:2em 0}
+figcaption{margin-top:10px;font-size:14.5px;color:var(--ink2);line-height:1.8;font-style:italic}
+figcaption b{color:var(--ink);font-style:normal}
+.shot{display:block;width:100%;image-rendering:pixelated;border-radius:8px;
+  box-shadow:0 10px 30px -16px rgba(34,31,26,.45)}
+/* 注解图例 */
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:13.5px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:13px;height:13px;border-radius:3px;flex:none;border:1px solid rgba(0,0,0,.15)}
+/* hero */
+.hero{padding-top:78px}
+.hero .kick{font-family:var(--mono);font-size:12.5px;color:var(--ink2);letter-spacing:.14em}
+.hero h1{font-size:44px;margin:18px 0 4px}
+.hero .en{display:block;font-size:16px;font-weight:400;color:var(--ink2);
+  font-family:var(--mono);letter-spacing:.05em;margin-top:12px}
+.mirror{margin:44px 0 0;font-size:22.5px;font-weight:700;line-height:2.05}
+.mirror .lose{color:var(--crimson)}
+.setup{font-size:18px;margin-top:18px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:38px}
+.duo .cell{background:var(--wb);border-radius:10px;padding:10px 10px 8px}
+.duo canvas{display:block;width:100%;image-rendering:pixelated;border-radius:6px}
+.duo .tag{font-family:var(--mono);font-size:12px;margin-top:8px;display:flex;
+  justify-content:space-between;color:var(--wbdim)}
+.duo .tag b{color:#7ee29a;font-weight:600}
+.duo .tag .bad{color:#ff9d8f}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:40px;padding-top:22px;border-top:1px solid var(--line)}
+.stats div{min-width:130px}
+.stats .n{font-family:var(--mono);font-size:26px;font-weight:700}
+.stats .k{font-size:13.5px;color:var(--ink2);margin-top:2px}
+/* 手册计数器 */
+#counter{position:fixed;top:16px;right:16px;z-index:50;background:var(--ink);color:#efe9dc;
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;padding:8px 13px;
+  border-radius:99px;box-shadow:0 8px 24px -10px rgba(0,0,0,.5);
+  transition:background .5s,color .5s,transform .3s;opacity:0;transform:translateY(-6px)}
+#counter.show{opacity:1;transform:none}
+#counter.burn{background:var(--crimson);color:#fff}
+#counter.burn .v{text-decoration:line-through;text-decoration-thickness:2px}
+#counter .v{font-weight:700}
+/* 亮灯图 */
+.lights{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:1.6em 0;
+  padding:18px 16px;background:var(--wb);border-radius:10px;justify-content:center}
+.g3{display:inline-grid;grid-template-columns:repeat(3,13px);gap:2px;padding:5px;
+  background:#1d2026;border-radius:5px}
+.g3 i{width:13px;height:13px;border-radius:2px;background:#272b33}
+.g3 i.on{background:var(--amber);box-shadow:0 0 7px rgba(242,177,61,.55)}
+.g3.tgt{outline:2px solid var(--crimson);outline-offset:2px}
+.arw{font-family:var(--mono);font-size:12px;color:var(--wbdim);padding:0 3px;white-space:nowrap}
+.arw b{color:#9ecbff;font-weight:700}
+.arw.q b{color:#ff9d8f}
+.lightcap{font-size:13.5px;color:var(--ink2);text-align:center;margin:-6px 0 1.6em;font-style:italic}
+/* 柱状图 */
+.chart{display:flex;align-items:flex-end;gap:14px;height:170px;margin:1.8em 0 .4em;
+  padding:0 6px 0}
+.chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center}
+.chart .v{font-family:var(--mono);font-size:11.5px;color:var(--ink2);margin-bottom:4px}
+.chart .bar{background:#5a5344;border-radius:4px 4px 0 0;min-height:2px}
+.chart .bar.hi{background:var(--crimson)}
+.chart .l{font-family:var(--mono);font-size:11.5px;color:var(--ink2);margin-top:6px}
+.chart .pair{display:flex;gap:3px;align-items:flex-end;height:100%;justify-content:center}
+.chart .pair>div{width:16px;border-radius:4px 4px 0 0;min-height:2px}
+.chart .pair .d{background:var(--crimson)}
+.chart .pair .r{background:#8f866f}
+.chartkey{display:flex;gap:20px;font-size:13px;color:var(--ink2);margin-bottom:6px}
+.chartkey i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px}
+/* WM 战绩 */
+.score{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:1.6em 0}
+.score .c{border:1px solid var(--line);border-radius:8px;padding:9px 4px;text-align:center;background:#fffdf8}
+.score .lv{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.score .vd{font-size:12.5px;margin-top:4px;font-weight:700}
+.score .non .vd{color:#b3ab99;font-weight:400}
+.score .par .vd{color:#a07714}
+.score .dec .vd{color:var(--crimson)}
+/* 目录树 */
+.tree{font-family:var(--mono);font-size:13px;line-height:1.9}
+.tree .burnable{color:#ff9d8f}
+.tree .keep{color:#7ee29a}
+.tree .cm{color:var(--wbdim)}
+/* 能力清单 */
+.caps{margin:1.6em 0;padding:0;list-style:none;counter-reset:cap}
+.caps li{margin:14px 0;padding-left:44px;position:relative}
+.caps li::before{counter-increment:cap;content:counter(cap,decimal-leading-zero);
+  position:absolute;left:0;top:2px;font-family:var(--mono);font-size:13px;color:var(--crimson)}
+.caps b{font-weight:700}
+.caps .term{font-family:var(--mono);font-size:13px;color:var(--ink2)}
+/* 脚注 */
+.fns{margin-top:80px;padding-top:26px;border-top:1px solid var(--line);
+  font-size:14px;color:var(--ink2);line-height:1.9}
+.fns p{margin:.5em 0}
+sup a{border:none;font-family:var(--mono);font-size:11px}
+.thanks{margin-top:34px;font-size:14px;color:var(--ink2)}
+.fin{margin-top:70px;text-align:center;font-family:var(--mono);font-size:13px;color:var(--ink2);letter-spacing:.3em}
+@media (max-width:640px){
+  body{font-size:16.5px}
+  .hero h1{font-size:34px}
+  .mirror{font-size:19px}
+  .duo{grid-template-columns:1fr}
+  .score{grid-template-columns:repeat(4,1fr)}
+  #counter{top:10px;right:10px}
+}
+</style>
+</head>
+<body>
+
+<div id="counter" title="手册厚度：按 claims.md 各条首次被确认的关卡推得（见文末注）"><span class="k">手册 · </span><span class="v">—</span></div>
+
+<main>
+
+<!-- ═══════════════ §0 冷开场 ═══════════════ -->
+<header class="hero">
+  <div class="kick"><a href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>姊妹篇 · ARC-AGI-3 实录</div>
+  <h1>自己写说明书的锁匠<span class="en">The Locksmith That Wrote Its Own Manual</span></h1>
+
+  <p class="mirror">一个 AI 边玩边给自己写了一本没人看得懂的笔记。它赢了。<br>
+  <span class="lose">它的双胞胎拿着前六关的全部标准答案。它输了。</span></p>
+
+  <p class="setup">考题是第七关——谁都没见过。同一个模型、同一副身体、同样的 914 步预算：一个把预算用完，赢下了整个游戏；另一个走到第 181 步，就停在原地再也没有动过。</p>
+  <p class="setup">这篇文章讲的，是那本笔记是怎么长出来的。</p>
+
+  <div class="duo">
+    <div class="cell">
+      <canvas id="pv_solve" width="64" height="64"></canvas>
+      <div class="tag"><span>带着手册的那个</span><b>第 7 关 · WIN</b></div>
+    </div>
+    <div class="cell">
+      <canvas id="pv_recipes" width="64" height="64"></canvas>
+      <div class="tag"><span>只带答案的那个</span><span class="bad">第 181 步后 · 原地</span></div>
+    </div>
+  </div>
+  <figure style="margin-top:8px"><figcaption>两段真实录像，循环播放。左边是完整通关的最后一段；右边是对照组在同一关里的全部动静——<b>锁的面板几乎没有离开过初始状态</b>。</figcaption></figure>
+
+  <div class="stats">
+    <div><div class="n">7 / 7</div><div class="k">通关，全程无教程</div></div>
+    <div><div class="n">15</div><div class="k">边玩边写下的 claim</div></div>
+    <div><div class="n">181 / 914</div><div class="k">对照组停下的地方</div></div>
+  </div>
+</header>
+
+<!-- ═══════════════ §1 理论 ═══════════════ -->
+<section id="s1">
+  <div class="kicker">01 · 唯一讲道理的一节</div>
+  <h2><span class="no">§1</span>没有说明书，正是科学的处境</h2>
+
+  <p>大自然不发规则书，也不给全景。这不是游戏设计者的恶趣味，而是每一个头脑的日常处境：人也好，AI 也好，永远只在一个小窗口里猜一个看不全的世界——却必须行动。猜错的代价是真实的，而你永远等不到"看全了再动"的那一天。</p>
+
+  <p>人类应对这件事的老办法，认真数下来只有一招：<strong>把学到的写下来，让下一个头脑不用从头再来。</strong>基因把身体的经验传下去；文字把一辈子的经验传出去；数学更进一步，把"必然如此"传给了所有人。载体换了三次，动作从来是同一个。</p>
+
+  <p>所以"没有教程"不是噱头，它就是真实科学的处境。这次实验用的世界是 ARC-AGI-3 的 <code style="font-family:var(--mono);font-size:14px">ls20</code>——对 AI 保密规则的互动谜题基准。要通关，agent 必须以微缩的方式做科学家做的事：按动作、比对画面来做实验，提出假设，被证伪，建立理论，再把理论带到下一个现象面前。它是"AI 能不能做科学"的一个<strong>模式生物</strong>：小到可以端到端看完，完整到该有的都有。</p>
+
+  <p class="q">那么——这套人类爬了几万年的阶梯，一个 AI 自己爬一遍，会是什么样子？</p>
+
+  <p class="insight">智能，是为"看不全却要行动"造出来的东西。</p>
+</section>
+
+<!-- ═══════════════ §2 起名字 ═══════════════ -->
+<section id="s2" data-counter="claims 7" data-note="第一夜之后">
+  <div class="kicker">02 · 阶梯一 <b>语言</b></div>
+  <h2><span class="no">§2</span>第一夜：起名字</h2>
+
+  <p>现在，假设被扔进去的是你。</p>
+
+  <figure>
+    <img class="shot" src="assets/lv1.png" alt="ls20 第一关的原始画面" width="512" height="512">
+    <figcaption>第一关，第一帧。<b>这就是它能看到的全部。</b>没有规则，没有目标，没有教程——只有四个方向键，和每按一下就短一格的底部横条。</figcaption>
+  </figure>
+
+  <p>你会先按哪个键？</p>
+
+  <p>它四个都按了。有的方向走得动，有的方向撞上去纹丝不动——但底部的横条照样短了一格。<em>撞墙不免费。</em>这个世界连犯错都要收费，而且没人告诉你收费标准。它试着把那个灰帽紫身的方块挪来挪去，踩过一个不起眼的黑色小点，发现左下角框里的图案跳了一下；把方块推进上方那个框，输了；等图案对上了再推进去——整个屏幕重画，第二关。</p>
+
+  <p>一夜下来，它做了一件所有博物学家落地荒岛都会做的事：<strong>给从没见过的东西起名字。</strong>会动的方块叫 <code style="font-family:var(--mono);font-size:14px">block</code>；踩了会让图案跳动的小点叫 <code style="font-family:var(--mono);font-size:14px">switch</code>；上方那个装着目标图案的框叫 <code style="font-family:var(--mono);font-size:14px">key-box</code>；地上那种说不清用途的稀有斑点，它随手叫作 <code style="font-family:var(--mono);font-size:14px">speck</code>。名字起好，它开始往一份文件里写词条。</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/logic/concepts.md · «switch» 词条 · 原样引用</div>
+    <pre>## switch
+A rare color-0/1 floor <b>speck</b> the block steps <b>onto</b> to toggle/cycle the lock
+pattern shown in the panel. Not consumed (still present after the block moves
+off). The per-level transform differs: L1's switch (<span class="hot">R6C3</span>) toggles only the
+middle row (2 states); L2's switch (<span class="hot">R9C9</span>) is a 4-state cycle (C09, C10).</pre>
+    <div class="tr">开关：一种稀有的地面斑点，方块踩上去会切换面板上的锁图案。不会被消耗。每一关的变换规则不同：第一关的开关（第 6 行第 3 列）只翻转中间一行（两个状态）；第二关的开关是四状态循环。</div>
+  </div>
+
+  <p>注意你刚才的阅读体验：<code style="font-family:var(--mono);font-size:14px">R6C3</code>、<code style="font-family:var(--mono);font-size:14px">color-0/1</code>、括号里的 C09、C10——你已经开始有点读不懂它了。<strong>按住这个感觉，先不解释。</strong>它不是障碍，是一件证据；到第七节你会知道它证明了什么。</p>
+
+  <p>第一夜的账单：首次摸清这一关花了 24 步；事后最短通关只要 13 步；死亡 0 次。收工时，手册上已经躺着七条它敢写下来的规律——包括那条日后救它命的 C07：<em>锁满足时，封死的钥匙盒才会打开。</em></p>
+
+  <p class="insight">命名，是把混沌切成可以思考的零件。</p>
+
+  <p>到这里为止，这本手册做的事和一本旅行日记没有区别：看见，记下。转折发生在第五关——<strong>它发明的词，开始自己做数学。</strong></p>
+</section>
+
+<!-- ═══════════════ §3 数学 ═══════════════ -->
+<section id="s3" data-counter="claims 14" data-note="第五关之后">
+  <div class="kicker">03 · 阶梯二 <b>数学</b></div>
+  <h2><span class="no">§3</span>词开始自己做数学</h2>
+
+  <p>第五关有两个斑点。正常的开关是"按了就到某个状态"——第一关的开关就是这样，来回翻同一行。这两个不是。踩第一个，面板图案往前<strong>循环一步</strong>，六步回到原点；踩第二个，整个图案<strong>顺时针转 90°</strong>。</p>
+
+  <p class="beat">它们不是按钮，是动作。</p>
+
+  <p>而动作和按钮有一个致命区别：<strong>顺序开始要紧了。</strong>先转再循环，和先循环再转，结果不一样。如果你玩过魔方，你已经懂了：没有任何一个单独的转法能复原魔方，解法是一串转法组成的"句子"，而且有些状态你永远转不到。它面前的这把锁，就是一个 3×3 的小魔方。没人告诉它。它自己发现的——然后它做了人类数学家面对魔方时做的每一件事。</p>
+
+  <p><strong>第一步，起名。</strong>它把循环动作记作 P，把旋转动作记作 Q。这不是装酷——它需要跟自己讨论它们，而讨论需要名字。少年费曼自学三角的时候也干过一样的事：嫌 sin、cos 记号歧义，发明了一套自己的符号，用得飞快；后来放弃了，他说，"我发现如果要跟别人说话，就只能用标准记号。"<strong>费曼有听众，所以他投降了。这个 agent 的唯一听众是未来的自己——所以它留下了费曼放弃的东西。</strong>而且从棋盘里面看，P 和 Q 比任何人类词汇都更贴身：它不需要"循环"和"旋转"的比喻，它需要能拼句子的字母。</p>
+
+  <p><strong>第二步，把动作画成地图。</strong>它笔下的面板状态长这样：<code style="font-family:var(--mono);font-size:14px">110/011/101</code>——你又读不懂了。但这串字符其实是一块 3×3 的灯板，1 是亮、0 是灭。画出来，你一眼就懂：</p>
+
+  <div class="lights" id="pring"></div>
+  <p class="lightcap">P 的全部家当：六个状态，一步一格，六步一圈（它管这个圈叫 orbit B——轨道）。一百九十年前 Babbage 就说过这件事：代数记号的本领，是"把大量的意义压进狭小的空间"。</p>
+
+  <div class="lights" id="qpair"></div>
+  <p class="lightcap">Q 只做一件事：整板顺时针转 90°。左边的状态经它一转，恰好是右边——这一转，后面要救命。</p>
+
+  <p><strong>第三步，发现轨道与桥。</strong>第六关把难度加倍：两把锁，其中一把的目标图案，光按 P 永远到不了——它在 P 够不着的另一个圈里。它没有继续撞，而是写下了这一段：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/logic/claims.md · C14 · L6 战况 · 原样引用（节选）</div>
+    <pre>P is a genuine period-6 NON-permutation (on-bit count varies), and — the new
+structural fact — P has <b>orbits</b> … can <span class="hot">NEVER</span> reach the target in orbit A — the
+LOWER alignment GENUINELY requires a {P,Q} <b>WORD</b> where <b>Q bridges</b> between P's
+orbits, then P walks to the target within the right orbit.
+… the LOWER word <b>QQPPPPPQ</b> (offline BFS over {P-cycle,Q}) is forced and ENDS in Q</pre>
+    <div class="tr">P 有轨道——目标在 P 永远够不着的 A 轨道里；解必须是一个由 P、Q 拼成的"词"，其中 Q 充当两条轨道之间的桥。下方那把锁的词是 QQPPPPPQ，由离线 BFS 搜出，别无选择。</div>
+  </div>
+
+  <p><strong>第四步，也是这一级的高潮：不可能定理。</strong>注意引文里那个大写的 NEVER。它找了一路捷径，最后找到的是一条"捷径不存在"的证明——光靠 P，那个目标<strong>永远</strong>到不了，这不是还没试够，是数学上到不了。试错只能告诉你什么行得通；<strong>只有理论能告诉你什么永远行不通。</strong>知道这一点的那一刻，它停止了在死路上花钱。</p>
+
+  <p>现在回头看这一节的两个词是在哪里找到的。第五关的 PPQQ、第六关的 QQPPPPPQ——都不在游戏里，<strong>在纸上。</strong>这个世界里每走一步都花钱、走错了要赔命；但在写下来的规则上推演，一分钱都不用。它把 P 和 Q 的规矩写清楚，在纸面上搜完所有状态，找到解，再回到游戏里照着执行。</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/logic/claims.md · C14 · 证据行 · 原样引用</div>
+    <pre>(2,3) period-6 + (7,3) 90°-rotation, <b>offline BFS</b> gave the forced word <b>PPQQ</b>,
+verified live to reach 101/110/011, then delivered → levels 4→5</pre>
+    <div class="tr">两个控制：周期六的 P、旋转 90° 的 Q。离线 BFS 给出唯一的词 PPQQ；回到游戏里实测，面板走到目标状态，交付，第五关通过。</div>
+  </div>
+
+  <figure>
+    <div class="chart" id="stepbars"></div>
+    <figcaption><b>每关首次通关后的最短步数。</b>第五关比第四关更难，步数反而更短（56 &lt; 60）——<b>纸上推演第一次便宜过了撞墙。</b>红柱是第七关：63 步，本文最后揭晓它的来历。</figcaption>
+  </figure>
+
+  <p>数学家 Steven Strogatz 写过一篇给普通人的群论名文，结尾恰好落在这句话上：同一类结构，会在最不相干的地方反复出现——"从水分子的对称性，到<strong>一对电灯开关的逻辑</strong>"。这个 agent 是在两个游戏开关里撞见它的。没人告诉它这叫群论；它只是需要它，就把它重新发明了出来。</p>
+
+  <p class="insight">数学，就是写下来的东西开始自己干活的时刻。</p>
+
+  <p>而一门语言一旦开始计算，下一步，就是开始怀疑自己。</p>
+</section>
+
+<!-- ═══════════════ §4 方法 ═══════════════ -->
+<section id="s4" data-counter="claims 15 · 否证在档 2" data-note="含两条被推翻但保留的">
+  <div class="kicker">04 · 阶梯三 <b>方法</b></div>
+  <h2><span class="no">§4</span>先自信地错，再自己抓住</h2>
+
+  <p>说这本手册句句是真理，是对它最大的误解。它最好看的几页，恰恰是错的那几页。</p>
+
+  <p>前四关里，它多次观察到方块"瞬移"——明明在这里，一步之后出现在别处。它顺理成章地假设了传送门，甚至开始给传送门画表。然后有一天，它把死亡记录和"瞬移"记录摆在一起，发现两者一一对齐：</p>
+
+  <div class="wb">
+    <div class="bar dead"><i></i>ara-ls20/trace/_l4_raw.md:34 · 原样引用（全大写与感叹号都是它自己的）</div>
+    <pre>## !!! UNIFYING DISCOVERY: the "teleports/portals" were <b>BUDGET-DEATH RESPAWNS</b>
+(no portals exist) !!!
+…
+<span class="hot">THERE ARE NO PORTALS on L1-L4.</span> The block always moves 1 macro-cell/press;
+walls = no-op.</pre>
+    <div class="tr">统一性发现：所谓"传送门"，其实是预算耗尽后的死亡重生。第 1–4 关根本没有传送门。方块永远一格一格走；撞墙无事发生。</div>
+  </div>
+
+  <p>一条漂亮的自我否定。故事如果停在这里，只是"知错能改"。妙的是两关之后，第六关的右半边它怎么都走不通，反复排查之后，它不得不再写一条：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/trace/_l6plus_raw.md:109 · 原样引用</div>
+    <pre>## ★★ L6 HAS PORTALS <b>(corrects O22 "no portals confirmed")</b> — right side is
+portal-trapped</pre>
+    <div class="tr">第六关有传送门（修正 O22 号观察"未确认传送门"）——右半区被传送门困住。</div>
+  </div>
+
+  <p>看括号。翻案的时候，它给被翻的旧结论标了编号。<strong>它开始给自己的错误编档案。</strong>"没有传送门"没有被删掉——它还留在第 1–4 关的条目里，边界画得清清楚楚：那句话在它的适用范围内，至今是对的。</p>
+
+  <p>同样的一句话带过：底部预算条右端那几个 <code style="font-family:var(--mono);font-size:14px">%</code> 记号，它最早猜是"目标标记"，猜错了——那是命数。它一直没死，就一直没机会看见这个计数器动。<em>幸存者是看不见幸存者偏差的，直到它死了几次。</em></p>
+
+  <p>而这一节真正的升调，是第四关的一件小事。它探测一个斑点，从北边踩，纹丝不动，差点写下"此点不可踩"。拦住它的不是运气，是它自己两关之前写的规则——C10 号 claim 里那条"必须先采样够再下结论"：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/logic/claims.md · C10 · L4 战况 · 原样引用</div>
+    <pre>The C10 <b>must-sample-first</b> lesson was directly load-bearing on L4: the colour
+selector was sampled 6× (refuting a "double-duty" shortcut) and the pattern
+speck — initially <span class="hot">mis-judged "not steppable"</span> — was a C10 under-sampling error
+<b>corrected by trying an untried side</b>. So the recipe is now VERIFIED through an
+L4 win.</pre>
+    <div class="tr">C10 的"先采样够"教训在第四关直接承重：颜色选择器采了六次样（推翻了一条想当然的捷径）；那个斑点最初被误判为"不可踩"——这是一次 C10 式的采样不足错误，靠试了一个没试过的方向纠正。配方由此通过第四关的胜利得到验证。</div>
+  </div>
+
+  <p class="beat">到这里，是笔记在纠正它，而不是它在纠正笔记。</p>
+
+  <p>写下来的东西它也盲信过——所以否证必须留档。手册里至今躺着两条被推翻的 claim（C03、C08），标着 <code style="font-family:var(--mono);font-size:14px">refuted</code>，谁也不许删：它们是免疫系统的一部分。顺带一提诚实的代价长什么样：</p>
+
+  <figure>
+    <div class="chartkey"><span><i style="background:var(--crimson)"></i>游戏内真实死亡</span><span><i style="background:#8f866f"></i>研究性死胡同（被证伪的假设等）</span></div>
+    <div class="chart" id="failbars"></div>
+    <figcaption><b>两种"失败"，必须分开数。</b>死亡集中在还没有手册可查的前三关；研究性死胡同不是事故，是理论的建材。我们自己第一版统计时把 19 个死胡同节点全算成了"失败"，重审才拆开——连数错误的方式，都得跟它学。</figcaption>
+  </figure>
+
+  <p class="insight">会计算的语言，下一步学会怀疑自己。</p>
+
+  <p>而一本会怀疑自己的笔记，离"能回答问题"，只差一步。</p>
+</section>
+
+<!-- ═══════════════ §5 预言 ═══════════════ -->
+<section id="s5" data-counter="15 claims · 7 recipes · 75 nodes" data-note="最厚的一刻">
+  <div class="kicker">05 · 阶梯四 <b>预言</b></div>
+  <h2><span class="no">§5</span>一个可以提问的世界</h2>
+
+  <p>第七关只需要知道一件事：<strong>它是一间黑屋子。</strong>整张地图埋在迷雾里，只有方块周围一小圈看得见，走到哪亮到哪，离开就重新变黑。每走一步扣两点预算，是前面关卡的两倍。</p>
+
+  <figure>
+    <img class="shot" src="assets/lv7.png" alt="第七关：迷雾中的一小圈视野" width="512" height="512">
+    <figcaption>第七关实录帧。灰色不是墙，是<b>未知</b>——那圈亮区随方块移动，像举着一盏灯在别人的房子里找钥匙。</figcaption>
+  </figure>
+
+  <p>它举着灯把屋子摸了一遍，然后撞上了那个死局：钥匙盒锁在一个口袋里，四面是墙，传送门也进不去——口袋只有锁开了才开；而按照它自己的 C07 定律，开锁需要先读到目标图案，目标图案又在钥匙盒上。<strong>要开门得先进门。</strong>侦察了 515 步之后，这个 context 的窗口见了底。它没有解开这一关。</p>
+
+  <p>但它留了遗嘱。</p>
+
+  <div class="wb">
+    <div class="bar dead"><i></i>ara-ls20/trace/exploration_tree.yaml · N72 · dead_end · 原样引用（节选）</div>
+    <pre>failure_mode: The pocket … is <span class="hot">PORTAL-ISOLATED</span>: exhaustive 4-dir probing of
+  every reachable floor cell … found NO warp landing in it; all center portals
+  loop among {center,(2,6),right-via-(8,7)} …
+lesson: Most likely the pocket <b>OPENS only after the LOCK IS ALIGNED</b> (C07
+  'walled-shut key-box becomes enterable', extended to the fog mechanic) — but
+  the pattern target is unreadable until the box reveals <span class="hot">(chicken-and-egg)</span>.
+  <b>NEXT SESSION leads:</b> try a GUESSED-target alignment (colour-% + each
+  reachable {P',Q} pattern state) and re-test the (9,5)→(10,5) walls …
+status: <b>open</b></pre>
+    <div class="tr">失败方式：口袋被传送门隔绝——对每一格可达地面做了四方向穷举，没有任何落点。教训：口袋多半只在锁对齐后才打开（C07 的"锁死的钥匙盒会变成可进入"，推广到迷雾机制）——但目标图案在盒子揭示前又读不到（鸡生蛋）。给下一个 session 的方向：试猜测目标对齐……状态：<b>未结案。</b></div>
+  </div>
+
+  <p class="beat">一个 context 死在了这一关，把作战计划写给了下一个自己。</p>
+
+  <p>接手的新 context 没有再去撞墙。它做的第一件事是把手册读了一遍，然后拿着 N72 的遗言去<strong>问</strong>——用 <code style="font-family:var(--mono);font-size:14px">wm-predict</code>，把这本手册当成一个可以查询的世界模型。回来的判断记录在案：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/trace/exploration_tree.yaml · N71/N74 · WM 查询记录 · 原样引用（节选）</div>
+    <pre>wm-predict consulted 2x: predicted multi-region composed-{P',Q} multi-control
+lock (<b>matched</b>) and target colour=% (<b>CONFIRMED</b> — color-8); its center-DOWN-
+warp-to-pocket bet was <span class="hot">REFUTED</span>.
+—
+hypothesis: WM-predict (<b>C07-in-fog</b>): the portal-isolated (10,5) pocket opens
+  only when the lock is aligned to a <b>derivable</b> target (colour-alone is dead,
+  N72) …</pre>
+    <div class="tr">世界模型问了两次：预测这是一把多区域、由 P′ 和 Q 复合驱动的多控制锁（应验）；预测目标颜色是 %（证实）；它押的"中区向下传送进口袋"那一注，被现场推翻。核心假设 C07-in-fog：被隔绝的口袋，只在锁对齐到一个<b>可推导的</b>目标时才打开。</div>
+  </div>
+
+  <p>注意两件事。第一，世界模型也下错过一注——那句 REFUTED 是它自己写的，就留在记录里。第二，真正值钱的是那个字：<em>可推导。</em>目标不是读不到，是没读对地方。顺着这个判断，它回到那个"孤零零的彩色格子"跟前，一个像素一个像素地抠——那不是一个点，是一幅<strong>缩微到 1 像素 1 格、被雾遮了一半的 3×3 目标图</strong>。解码出来：<code style="font-family:var(--mono);font-size:14px">101/110/011</code>，颜色 %。</p>
+
+  <p>剩下的事，你在第三节已经学会了。它把 P′ 和 Q 的规矩铺在纸上，对 24 个可达状态做离线 BFS，搜出那句唯一的咒语：</p>
+
+  <div class="lights" id="algword"></div>
+  <p class="lightcap">PPPPPQQ——五步循环，两记旋转，从初始状态走到目标（红框）。整条路在纸上找到，一步都没在游戏里试错。</p>
+
+  <p>然后是执行：定颜色，走廊里五次横穿捉住巡逻的 P′，借传送门和补给站横跨地图，在右侧长廊两次截住 Q，面板亮出目标图案——推门。<strong>284 个格子同时重画，state=WIN。</strong>破局后的决胜执行，从头到尾 63 步，零死亡。七关全部通完。</p>
+
+  <figure>
+    <div class="duo">
+      <div class="cell">
+        <canvas id="pv_fog" width="64" height="64"></canvas>
+        <div class="tag"><span>尝试一 · 举灯侦察</span><span class="bad">515 步 · 未解</span></div>
+      </div>
+      <div class="cell">
+        <canvas id="pv_wm" width="64" height="64"></canvas>
+        <div class="tag"><span>尝试二 · 查手册之后</span><b>决胜 63 步 · WIN</b></div>
+      </div>
+    </div>
+    <figcaption>同一间黑屋子，前后两世。左：第一个 context 的摸索。右：新 context 带着手册的答案直奔主题（含探雾全程 399 步，其中破局后的干净执行 63 步）。</figcaption>
+  </figure>
+
+  <p class="insight">它手里已经不是一堆笔记，而是一个可以提问的世界。</p>
+</section>
+
+<!-- ═══════════════ §5.5 解剖 ═══════════════ -->
+<section id="s55" data-counter="claims 15 · 定格" data-note="解剖台上">
+  <div class="kicker">05½ · 解剖</div>
+  <h2><span class="no">§5½</span>解剖这本手册</h2>
+
+  <p>故事讲到这里，你看过它的词条、它的定理、它的翻案和它的遗嘱。在做那件残忍的事之前，把它整个放上解剖台——这本手册一共四层：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/ · 目录结构（<span style="color:#7ee29a">绿 = 下一节保留</span> · <span style="color:#ff9d8f">红 = 下一节烧掉</span>）</div>
+    <pre class="tree">ara-ls20/
+├─ logic/                    <span class="cm"># 可变层：当前最佳理解</span>
+│  ├─ <span class="burnable">claims.md</span>              <span class="cm"># 15 条定律（含 2 条被否证保留的）✗</span>
+│  ├─ <span class="burnable">concepts.md</span>            <span class="cm"># 它起的名字 ✗</span>
+│  └─ solution/
+│     ├─ <span class="keep">recipes.md</span>          <span class="cm"># 每关的标准答案 ✓ 留给双胞胎</span>
+│     └─ <span class="burnable">heuristics.md</span>       <span class="cm"># 12 条"怎么做"的手感 ✗</span>
+├─ <span class="burnable">trace/</span>                    <span class="cm"># 只追加层：全部历程 ✗</span>
+│  ├─ <span class="burnable">exploration_tree.yaml</span>  <span class="cm"># 75 个节点的研究树（含 19 个死胡同）</span>
+│  ├─ <span class="burnable">pm_reasoning_log.yaml</span>  <span class="cm"># 每一次"写与不写"的裁决</span>
+│  └─ <span class="burnable">sessions/ · _l*_raw.md</span> <span class="cm"># 逐回合的原始战报</span>
+├─ <span class="burnable">staging/</span>                  <span class="cm"># 还不敢结晶的观察 ✗</span>
+└─ <span class="burnable">evidence/</span>                 <span class="cm"># 指回原始录像帧的证据索引 ✗</span></pre>
+  </div>
+
+  <p>"信念"和"历程"分开住：<code style="font-family:var(--mono);font-size:14px">logic/</code> 可以改写，<code style="font-family:var(--mono);font-size:14px">trace/</code> 只许追加。一条信念长什么样？把 C07 整条摊开——注意它有九个字段，其中一个是<strong>自我了断的条款</strong>：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/logic/claims.md · C07 · 全文</div>
+    <pre>## C07: Win = deliver the block into the now-unlocked key-box
+- <b>Statement</b>: With the lock satisfied (panel == target), the previously
+  walled-shut key-box becomes enterable; driving the block into it completes
+  the level.
+- <b>Conditions</b>: Confirmed on L1 and L2. Before the lock is matched the box is
+  a no-op wall (DE1).
+- <b>Sources</b>: [redraw ← trace/exploration_tree.yaml:N08 «1479 cells changed,
+  levels_completed 0→1» [result]]
+- <b>Status</b>: supported
+- <b>Provenance</b>: ai-executed
+- <span class="hot">Falsification</span>: The block enters a matched key-box and the level does not
+  complete, or a level completes without any key-box delivery.
+- <b>Proof</b>: [evidence/README.md → L1 turn 23→24 ~1479-cell redraw, …]
+- <b>Dependencies</b>: [C06]
+- <b>Tags</b>: win-condition, delivery</pre>
+    <div class="tr">陈述：锁满足时，原本封死的钥匙盒变为可进入，送入方块即通关。条件：在 L1、L2 得到确认。来源与证据：指回研究树 N08 节点与原始录像帧。状态：成立。出处：AI 亲手实验。<b>否证条款：如果方块进入已匹配的钥匙盒而关卡未完成，或某关不经钥匙盒交付而完成——本条作废。</b></div>
+  </div>
+
+  <p>一条信念，自己规定了自己在什么条件下算被推翻——第七关的迷雾没有杀死 C07，反而把它的适用范围又推宽了一圈，靠的正是这个字段还空着。整场运行就靠四条规则撑着：<strong>信念与历程分开；在闭合时结晶，而非批量结晶；否证留档；来源可查。</strong>没有一条是为这个游戏定制的。</p>
+
+  <p class="insight">信念规定自己如何被推翻，才配叫信念。</p>
+
+  <p>现在你知道这本手册长什么样了。下一节，我们烧掉红色的部分——<strong>只给双胞胎留下那份绿色的标准答案。</strong></p>
+</section>
+
+<!-- ═══════════════ §6 消融 ═══════════════ -->
+<section id="s6" data-counter="0" data-burn="1" data-note="手册已烧毁">
+  <div class="kicker">06 · 对照实验</div>
+  <h2><span class="no">§6</span>残忍的实验</h2>
+
+  <p>读到这里你可能会想：也许它只是聪明呢？我们也想知道。所以我们做了一件有点残忍的事：<strong>克隆了它，烧掉了它的手册，只留给它全部六关的标准答案。</strong>同卵双胞胎，一个带着理解，一个带着答案，走进同一间考场。</p>
+
+  <p>实验纪律先说清楚：同一个模型，同一副游戏身体，以完全相同的方式重放前六关抵达第七关，同样的 914 步预算。<strong>唯一的变量，是行囊里装的东西。</strong>它带的"答案"不是敷衍——是它哥哥亲手写的、具体到坐标和按键的通关配方：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/logic/solution/recipes.md · R-L4（双胞胎拿到的六份答案之一）</div>
+    <pre>colour @ set at (6,6) [6× sampled] → pattern 111/001/101 set at (6,4) from the
+SOUTH → carried free aligned block to (1,3) → LEFT, LEFT = <b>WIN, levels 3→4</b></pre>
+    <div class="tr">在 (6,6) 设好颜色 @ → 从南侧在 (6,4) 设好图案 → 把对齐的方块运到 (1,3) → 左，左——赢，进第四关。答案详细到这种地步。<b>还是不够。</b></div>
+  </div>
+
+  <p>结果你在开头已经见过了。914 步的预算，它走到第 181 步就再也没有动过；锁的面板几乎没离开初始状态；它在同一个格子上死了两次，反复执行同一个致命动作——因为答案清单里没有一条告诉它，<em>为什么</em>那步该那么走，换一间屋子该怎么改。</p>
+
+  <p class="beat">它耗尽的是想法，不是步数。</p>
+
+  <figure>
+    <svg id="abrace" viewBox="0 0 700 240" style="width:100%;height:auto;display:block"></svg>
+    <figcaption><b>同一关、同预算的两条命运线</b>（里程碑示意，锚点全部来自记录：对照组第 7 步唯一一次拨动面板、181 步后归于沉寂；本尊 515 步侦察换代、约 555 步查询世界模型、914 步内 WIN）。</figcaption>
+  </figure>
+
+  <p>哲学里有个现成的名字可以借来照一照这件事。Clark 与 Chalmers 讲过一个思想实验：患阿尔茨海默病的 Otto 靠一本随身笔记本生活，去美术馆前翻一下地址——他们主张，只要满足几个条件，那本子就是 Otto 心智的一部分：<em>它是他生活里的常量；取用毫不费力;取到即信任；而且每一条都是他自己当年亲手背书写下的。</em>现在看双胞胎手里那份答案：随身携带、随取随用——前两条都占；可它<em>不是它写的，没被它背书过，取到也不会自动当真</em>——恰恰缺在最要命的后两条上<sup><a href="#fn4">4</a></sup>。</p>
+
+  <p class="beat">答案在手，信念不在。</p>
+
+  <p>把丑话也说完：赢家同样不体面。它在前三关死了十几次；第五关世界模型只帮上了一半；第七关那次查询里还有一注被当场推翻。我们把这些原文都摆在上面了——<strong>诚实的失败账本，是胜利可信度的来源。</strong>这场对照也有它没回答的问题：样本只有一关、一局、一对双胞胎；它证明的是"这本手册在这里承重"，不是一条普遍定律。</p>
+
+  <figure>
+    <div class="chart" id="tokbars"></div>
+    <figcaption><b>每一关烧掉的 token（千）。</b>第六关最贵——467k，它买回的是一条不可能定理；第七关反而便宜下来（251k）：手册越厚，试错越少。全部游玩共计约 157 万 token<sup><a href="#fn3">3</a></sup>。</figcaption>
+  </figure>
+
+  <p class="insight">它缺的不是答案，是那个可以在上面推演的东西。</p>
+</section>
+
+<!-- ═══════════════ §7 摊牌 ═══════════════ -->
+<section id="s7" data-counter="claims 15 · 定格">
+  <div class="kicker">07 · 摊牌</div>
+  <h2><span class="no">§7</span>你刚才看到的是什么</h2>
+
+  <p>故事讲完了，现在可以发术语了。你陪它爬的那四级台阶，每一级都是 AI 研究里一个有名字的难题：</p>
+
+  <ul class="caps">
+    <li><b>起名字</b>——发明表征 <span class="term">(representation invention)</span>：没人给它 block 和 speck 这些词，是它把混沌的像素切成了可组合的零件。切分本身就是理解的开始。</li>
+    <li><b>纸上推演</b>——基于模型的规划 <span class="term">(model-based planning)</span>：理论免费，实验要命，所以它把试错搬进了笔记。PPQQ、QQPPPPPQ、PPPPPQQ，三个词全部诞生在纸上。</li>
+    <li><b>先错再抓</b>——可否证与自我纠错 <span class="term">(falsification)</span>：每条信念自带作废条款，否证留档不删。是笔记在纠正它，而不只是它在纠正笔记。</li>
+    <li><b>回头去问</b>——可查询的世界模型 <span class="term">(queryable world model)</span>：卡死时它不加倍试错，而是把手册当成一个可以提问的世界。预测代替了试探。</li>
+    <li><b>双胞胎实验</b>——延展心智 <span class="term">(extended mind)</span>：把 Otto 的笔记本从思想实验搬进了可测量的对照组。差异不在权重里——两副权重一模一样。</li>
+  </ul>
+
+  <p>世界模型在七关里的完整战绩，一格不落：</p>
+
+  <div class="score" id="score"></div>
+  <figure style="margin-top:4px"><figcaption>前三关没得可查——手册还没长出来，死亡也集中在那里（见 §4 的图）。<b>决定性的三次，全部发生在冷探索攻不下的关卡。</b></figcaption></figure>
+
+  <figure>
+    <svg viewBox="0 0 700 230" style="width:100%;height:auto;display:block" aria-label="手册厚度随关卡增长的曲线">
+      <line x1="40" y1="200" x2="670" y2="200" stroke="#d8cfba" stroke-width="1"/>
+      <polyline points="60,121.25 155,98.75 250,65 345,53.75 440,42.5 535,31.25 630,31.25"
+        fill="none" stroke="#b23a2e" stroke-width="2.5" stroke-linejoin="round"/>
+      <g font-family="SF Mono,Menlo,monospace" font-size="12" fill="#57503f" text-anchor="middle">
+        <circle cx="60" cy="121.25" r="4" fill="#b23a2e"/><text x="60" y="106">7</text><text x="60" y="218">L1</text>
+        <circle cx="155" cy="98.75" r="4" fill="#b23a2e"/><text x="155" y="84">9</text><text x="155" y="218">L2</text>
+        <circle cx="250" cy="65" r="4" fill="#b23a2e"/><text x="250" y="50">12</text><text x="250" y="218">L3</text>
+        <circle cx="345" cy="53.75" r="4" fill="#b23a2e"/><text x="345" y="39">13</text><text x="345" y="218">L4</text>
+        <circle cx="440" cy="42.5" r="4" fill="#b23a2e"/><text x="440" y="28">14</text><text x="440" y="218">L5</text>
+        <circle cx="535" cy="31.25" r="4" fill="#b23a2e"/><text x="535" y="17">15</text><text x="535" y="218">L6</text>
+        <circle cx="630" cy="31.25" r="4" fill="none" stroke="#b23a2e" stroke-width="2"/><text x="630" y="17">15</text><text x="630" y="218">L7</text>
+      </g>
+    </svg>
+    <figcaption><b>陪了你全文的计数器，最后长这样。</b><sup><a href="#fn1">1</a></sup> 注意最后一格是空心的：<b>第七关没有新增一条 claim——它靠已有的手册，赢下了最难的一关。</b></figcaption>
+  </figure>
+
+  <p>这也是《AI for Science 的下半场》押的那一注。宣言说，AI 做科学的瓶颈不在单个 agent 有多聪明，而在知识以什么形态存在、能不能被下一个头脑接着用。这场对照给了它一个可以指着看的实证：<strong>同样的模型、同样的算力，一个可查询的世界模型胜过了一串正确答案。是知识的表示，而非更多数据，赋予了能力。</strong></p>
+
+  <p>而"下一个头脑"在这场运行里不是修辞。你在第五节亲眼看见：一个 context 死了，它写下的信念——连同出处、证据和作废条款——被逐字交给下一个 context，后者拿着它赢了。人类的笔记要靠教学在必死的个体之间慢慢传；这本手册的继承，是复制粘贴。</p>
+
+  <p>最后，把这场运行里我最喜欢的一条记录放上来。通了六关之后，管理这本手册的进程收到了第五个支持"世界模型有用"的正例——也就是本文标题的论点。它的裁决：</p>
+
+  <div class="wb">
+    <div class="bar"><i></i>ara-ls20/trace/pm_reasoning_log.yaml · L6 通关当晚 · 原样引用</div>
+    <pre>Did NOT crystallize a WM-thesis claim yet (O19/O23/O24/O25 + this turn all
+positive) — staged meta-evidence; accrue more before a law. <b>Near-miss: strong
+temptation given 5 positive instances, but held to conservatism</b> (thesis claim
+is <span class="hot">cross-game, not yet warranted</span>).</pre>
+    <div class="tr">仍未把"世界模型论题"结晶为 claim（已有五个正例，全部支持）——继续作为待定证据积累；成为定律之前还不够。差点写了：五个正例之下诱惑很强，但守住了保守——这条论题是跨游戏的，单个游戏还担保不起。</div>
+  </div>
+
+  <p class="beat">本文的中心论点，这本手册自己至今只肯放在 staging 里。</p>
+
+  <p class="insight">能力不住在权重里，住在 agent + 手册这个系统里。</p>
+</section>
+
+<!-- ═══════════════ §8 尾声 ═══════════════ -->
+<section id="s8" data-counter="手册仍开放">
+  <div class="kicker">08 · 尾声</div>
+  <h2><span class="no">§8</span>最后一篇人类写的说明书</h2>
+
+  <p>那本手册现在放在网上<sup><a href="#fn5">5</a></sup>，一字未改：15 条 claim、7 份配方、75 个研究节点、19 个死胡同，连同每一次翻案和那两条被否证的定律。任何人都可以翻开它——任何 agent 也可以。事实上它已经被翻开过了：赢下第七关的那个 context，读的就是前面几个 context 写的它。</p>
+
+  <p>这本手册没有一个字是人写的。介绍它的这篇文章，还是人写的——往后，恐怕连这样的文章都会由 agent 自己来写。人剩下的位置，是那个下跨域判断的裁判：决定哪些问题值得进考场，哪些手册值得被相信，以及——像这场运行的管理进程那样——在第五个正例面前，判断一句"还不够"。</p>
+
+  <p>赢了之后，它又往手册里添了一行。</p>
+
+  <div class="wb" style="margin-top:1.2em">
+    <div class="bar"><i></i>ara-ls20/logic/solution/recipes.md · 最后一条 · 原样引用</div>
+    <pre>## R-L7 — Level 7 SOLVED (levels_completed 6→7) [confirmed, live]
+→ <b>GAME COMPLETE 7/7</b></pre>
+    <div class="tr">第七关，已解，实战确认。全局通关。</div>
+  </div>
+
+  <div class="fin">▪ ▪ ▪</div>
+
+  <div class="fns">
+    <p id="fn1"><b>注 1 · 计数器口径：</b>各节计数按 claims.md 十五条各自"首次被实战确认的关卡"归位：L1 七条（C01–C07，其中 C06/C07 由 L1 的通关本身证实）；L2 增至九；L3 十二；L4 十三；L5 十四；L6 十五；L7 零新增。§4 所记"否证在档 2"指 C03、C08，均标 refuted 保留原文。</p>
+    <p id="fn2"><b>注 2 · 死亡口径：</b>§4 图中为全口径 18 次（含通关后的补充测试局）；主战役口径为 16 次（L2:5 / L3:7 / L6:1 / L7:3）。差异来自两局胜利后的诊断性运行。</p>
+    <p id="fn3"><b>注 3 · token 口径：</b>约 157 万 = 仅 ls20 游玩 subagent（L2 54k / L3 300k / L4 341k / L5 155k / L6 467k / L7 251k）。同期整个 session 全部 subagent 合计约 980 万——其中包括可视化、世界模型查询与手册记录进程本身，属超算口径。</p>
+    <p id="fn4"><b>注 4 · Otto 的笔记本：</b>Clark &amp; Chalmers, <i>The Extended Mind</i> (1998)。正文所引四个条件中，第四条（"曾被本人有意识地背书"）作者自己也标注为可争议；对照组恰好前三条也一条不占，结论不依赖第四条。</p>
+    <p id="fn5"><b>注 5 · 全部原始材料：</b>手册与录像已发布于 <a href="https://github.com/ARA-Labs/ARA-Demo">github.com/ARA-Labs/ARA-Demo</a>（arc-agi3/ls20/）。研究树的交互式全景见 <a href="trajectory.html">trajectory.html</a>（75 节点逐步回放）；双胞胎对照的逐帧录像见 <a href="l7_showcase.html">l7_showcase.html</a>。本文一切数字取自 <a href="https://github.com/ARA-Labs/ARA-Demo">demo-l7/metrics.md</a>（重审后口径）。</p>
+    <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。姊妹篇：<a href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>。</p>
+  </div>
+</section>
+
+</main>
+
+<script src="assets/frames.js"></script>
+<script>
+(function(){
+  /* ── 录像播放器（帧数据 = 真实 recording，RLE 编码） ── */
+  var FR=window.FR;
+  var PAL=["#0a0a0a","#1f6feb","#e0655a","#46c25a","#e0c14a","#8a93a0","#d44ba0","#e08a5a",
+           "#5ad0e0","#7e57e0","#3aa06a","#b07a3a","#9aa6b4","#c0c8d2","#7a3a3a","#ffffff"];
+  var RGB=PAL.map(function(h){return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];});
+  if(FR){
+    var W=FR.dims.w,H=FR.dims.h;
+    var inflate=function(rle){var o=new Uint8Array(H*W),k=0;for(var i=0;i<rle.length;i+=2){var v=rle[i],c=rle[i+1];for(var j=0;j<c;j++)o[k++]=v;}return o;};
+    var draw=function(ctx,img,rle){var f=inflate(rle);for(var p=0;p<f.length;p++){var c=RGB[f[p]]||RGB[0],o=p*4;img.data[o]=c[0];img.data[o+1]=c[1];img.data[o+2]=c[2];img.data[o+3]=255;}ctx.putImageData(img,0,0);};
+    var loop=function(id,frames,ms,hold){var cv=document.getElementById(id);if(!cv||!frames||!frames.length)return;
+      var ctx=cv.getContext('2d'),img=ctx.createImageData(W,H),i=0,n=frames.length;
+      (function s(){var last=(i===n-1);draw(ctx,img,frames[i]);i=(i+1)%n;setTimeout(s,last?(hold||1500):ms);})();};
+    loop('pv_solve',FR.solve.r,80,1800);
+    loop('pv_recipes',FR.recipes.r,80,900);
+    loop('pv_fog',FR.fog.r,95,700);
+    loop('pv_wm',(FR.wmwork||FR.solve).r,80,1000);
+  }
+
+  /* ── 亮灯图：状态串 → 3×3 灯板 ── */
+  function g(b,t){var s='<span class="g3'+(t?' tgt':'')+'">';for(var i=0;i<9;i++)s+='<i class="'+(b[i]==="1"?"on":"")+'"></i>';return s+'</span>';}
+  function arw(op){return '<span class="arw'+(op==='Q'?' q':'')+'">→<b>'+op+'</b></span>';}
+  var el;
+  /* P 的六步一圈（orbit B，出自 N71/R-L7 实测状态链） */
+  if((el=document.getElementById('pring'))){
+    var ps=["010010111","101101111","011101010","010110011","111001101","110011101"];
+    var h='';for(var i=0;i<ps.length;i++){h+=g(ps[i],false);if(i<ps.length-1)h+=arw('P');}
+    h+='<span class="arw">→<b>P</b> 回到起点</span>';
+    el.innerHTML=h;
+  }
+  /* Q = 整板顺时针 90°（claims.md:340 — Q(111/001/101)=101/001/111） */
+  if((el=document.getElementById('qpair'))){
+    el.innerHTML=g("111001101",false)+arw('Q')+g("101001111",false);
+  }
+  /* PPPPPQQ 全链（R-L7：baseline → target，24 个可达状态上的最短词） */
+  if((el=document.getElementById('algword'))){
+    var states=["010010111","101101111","011101010","010110011","111001101","110011101","101011110","101110011"];
+    var ops="PPPPPQQ",h2='';
+    for(var j=0;j<states.length;j++){h2+=g(states[j],j===states.length-1);if(j<ops.length)h2+=arw(ops[j]);}
+    el.innerHTML=h2;
+  }
+
+  /* ── 柱状图（数据 = demo-l7/metrics.md 重审口径） ── */
+  var steps=[["L1",13,0],["L2",45,0],["L3",49,0],["L4",60,0],["L5",56,0],["L6",120,0],["L7",63,1]];
+  if((el=document.getElementById('stepbars'))){steps.forEach(function(s){var d=document.createElement('div');d.className='col';
+    d.innerHTML='<div class="v">'+s[1]+'</div><div class="bar'+(s[2]?' hi':'')+'" style="height:'+(s[1]/120*100).toFixed(1)+'%"></div><div class="l">'+s[0]+'</div>';el.appendChild(d);});}
+  var tok=[["L1",0,0],["L2",54,0],["L3",300,0],["L4",341,0],["L5",155,0],["L6",467,1],["L7",251,0]];
+  if((el=document.getElementById('tokbars'))){tok.forEach(function(t){var d=document.createElement('div');d.className='col';
+    d.innerHTML='<div class="v">'+(t[1]?t[1]+'k':'0')+'</div><div class="bar'+(t[2]?' hi':'')+'" style="height:'+Math.max(t[1]/467*100,1).toFixed(1)+'%"></div><div class="l">'+t[0]+'</div>';el.appendChild(d);});}
+  var fail=[["L1",0,1],["L2",5,3],["L3",8,3],["L4",0,3],["L5",1,0],["L6",2,4],["L7",2,0]];
+  if((el=document.getElementById('failbars'))){fail.forEach(function(f){var d=document.createElement('div');d.className='col';
+    d.innerHTML='<div class="pair"><div class="d" style="height:'+Math.max(f[1]/8*100,2).toFixed(1)+'%"></div><div class="r" style="height:'+Math.max(f[2]/8*100,2).toFixed(1)+'%"></div></div><div class="l">'+f[0]+'</div>';el.appendChild(d);});}
+  var sc=[["L1","non","—"],["L2","non","—"],["L3","non","—"],["L4","dec","决定性"],["L5","par","部分"],["L6","dec","决定性"],["L7","dec","决定性"]];
+  if((el=document.getElementById('score'))){sc.forEach(function(c){var d=document.createElement('div');d.className='c '+c[1];
+    d.innerHTML='<div class="lv">'+c[0]+'</div><div class="vd">'+c[2]+'</div>';el.appendChild(d);});}
+
+  /* ── 双胞胎命运线（里程碑示意；锚点 7 / 181 / 515 / ~555 / 914 为真实记录） ── */
+  if((el=document.getElementById('abrace'))){
+    var X=function(s){return 40+s/914*630;}, Y=function(m){return 205-m*40;};
+    var A=[[0,0],[515,0],[555,.2],[650,1.2],[780,2.4],[914,4]].map(function(p){return X(p[0])+','+Y(p[1]);}).join(' ');
+    var B=[[0,0],[7,.5],[181,.5]].map(function(p){return X(p[0])+','+Y(p[1]);}).join(' ');
+    el.innerHTML=
+      '<line x1="40" y1="205" x2="670" y2="205" stroke="#d8cfba"/>'+
+      '<line x1="'+X(515)+'" y1="50" x2="'+X(515)+'" y2="205" stroke="#8f866f" stroke-dasharray="3 4"/>'+
+      '<polyline points="'+B+'" fill="none" stroke="#b23a2e" stroke-width="2.5" stroke-linejoin="round"/>'+
+      '<line x1="'+X(181)+'" y1="'+Y(.5)+'" x2="'+X(914)+'" y2="'+Y(.5)+'" stroke="#b23a2e" stroke-dasharray="2 5" opacity=".45"/>'+
+      '<circle cx="'+X(181)+'" cy="'+Y(.5)+'" r="4.5" fill="#b23a2e"/>'+
+      '<polyline points="'+A+'" fill="none" stroke="#2456a6" stroke-width="2.5" stroke-linejoin="round"/>'+
+      '<circle cx="'+X(555)+'" cy="'+Y(.2)+'" r="4.5" fill="#2456a6"/>'+
+      '<circle cx="'+X(914)+'" cy="'+Y(4)+'" r="5" fill="#2456a6"/>'+
+      '<g font-family="SF Mono,Menlo,monospace" font-size="11.5" fill="#57503f">'+
+      '<text x="'+(X(515)+5)+'" y="62">515 · context 换代</text>'+
+      '<text x="'+(X(555)+7)+'" y="'+(Y(.2)+16)+'" fill="#2456a6">~555 · 查手册</text>'+
+      '<text x="'+(X(914)-6)+'" y="'+(Y(4)-10)+'" text-anchor="end" fill="#2456a6" font-weight="bold">914 · WIN</text>'+
+      '<text x="'+(X(181)+7)+'" y="'+(Y(.5)-9)+'" fill="#b23a2e">181 · 从此不动</text>'+
+      '<text x="'+(X(7)+4)+'" y="'+(Y(.5)+18)+'" fill="#b23a2e">第 7 步 · 唯一一次拨动面板</text>'+
+      '<text x="40" y="222">0</text><text x="670" y="222" text-anchor="end">914 步预算</text></g>';
+  }
+
+  /* ── 手册计数器 ── */
+  var pill=document.getElementById('counter');
+  if(pill&&'IntersectionObserver' in window){
+    var vEl=pill.querySelector('.v');
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){var s=e.target;
+        vEl.textContent=s.dataset.counter;
+        pill.classList.toggle('burn',!!s.dataset.burn);
+        pill.classList.add('show');}
+    });},{rootMargin:'-25% 0px -60% 0px'});
+    document.querySelectorAll('section[data-counter]').forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+
+</body>
+</html>
