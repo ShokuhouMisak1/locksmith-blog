@@ -202,7 +202,7 @@ sup a{border:none;font-family:var(--mono);font-size:11px}
 
   <p>人类应对这件事的老办法，认真数下来只有一招：<strong>把学到的写下来，让下一个头脑不用从头再来。</strong>基因把身体的经验传下去；文字把一辈子的经验传出去；数学更进一步，把"必然如此"传给了所有人。载体换了三次，动作从来是同一个。科学之所以能滚雪球，靠的不是哪一代人特别聪明，而是这个动作从来没断过。</p>
 
-  <p>而这条链，在今天的 AI 身上恰好是<strong>断的</strong>。一个 agent 的一生就是一个 context 窗口——一段有上限的工作记忆。窗口关上，它辛苦换来的理解整个蒸发；下一个 agent 接手，能翻到的要么是一份没法查询的聊天记录，要么是一个没法核验的最终答案——<em>中间那层最值钱的东西，它对问题的理解本身，没有容器。</em>AI 不缺聪明，缺的是"写下来、还能回头查"的那一层。这就是我们做 <strong>ARA</strong>（Agent-Native Research Artifact）的原因：给 agent 的研究过程一个结构化的容器——定律、概念、配方、探索轨迹，每一条都带证据和出处；也是我们在它上面再做一个<strong>世界模型</strong>的原因：让这个容器不只是档案，而是可以提问的。</p>
+  <p>而这条链，今天恰好走到一个要断的关口：<strong>AI 开始做科学了。</strong>不久之后，大多数论文会由 AI 写、也由 AI 读——可我们为科学知识造的容器，还是三百年前为人类读者设计的那一个。论文要交两笔税。它把一场枝枝叉叉的探索压平成一条获胜的故事线——失败的尝试、被推翻的假设、"此路不通"的地图，<em>一个项目里最昂贵的那部分知识，从来不出实验室</em>——这是叙事税（storytelling tax）；它把方法写到"足以说服评审"的精度，而不是"足以复现"的精度——让 agent 照着 PDF 复现一篇论文，所需的信息不到一半在纸上——这是工程税（engineering tax）。一句话：<strong>写下来的，不再是下一个头脑需要的。</strong>这就是 <a target="_blank" href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html"><strong>ARA</strong>（Agent-Native Research Artifact）诞生的原因</a>：一个为 agent 写、也为 agent 读的研究容器——定律、概念、配方、保留全部死胡同的探索树、证据，每一条都带出处；也是我们在它上面再做一个<strong>世界模型</strong>的原因：让这个容器不只是档案，而是可以提问的。</p>
 
   <p>但"理解已经被写下来了"是一句便宜话——<strong>怎么测量？</strong>你需要一个足够小、也足够狠的世界：规则保密，行动收费，犯错赔命，没有教程。这次实验用的世界是 ARC-AGI-3 的 <code style="font-family:var(--mono);font-size:14px">ls20</code>，一个对 AI 保密规则的互动谜题基准。要通关，agent 必须以微缩的方式做科学家做的事：按动作、比对画面来做实验，提出假设，被证伪，建立理论，再把理论带到下一个现象面前。它是"AI 能不能做科学"的一个<strong>模式生物</strong>：小到可以端到端看完，完整到该有的都有。</p>
 
@@ -613,7 +613,7 @@ is <span class="hot">cross-game, not yet warranted</span>).</pre>
     <p id="fn3"><b>注 3 · token 口径：</b>约 157 万 = 仅 ls20 游玩 subagent（L2 54k / L3 300k / L4 341k / L5 155k / L6 467k / L7 251k）。同期整个 session 全部 subagent 合计约 980 万——其中包括可视化、世界模型查询与手册记录进程本身，属超算口径。</p>
     <p id="fn4"><b>注 4 · Otto 的笔记本：</b>Clark &amp; Chalmers, <i>The Extended Mind</i> (1998)。正文所引四个条件中，第四条（"曾被本人有意识地背书"）作者自己也标注为可争议；对照组恰好前三条也一条不占，结论不依赖第四条。</p>
     <p id="fn5"><b>注 5 · 全部原始材料：</b>手册与录像已发布于 <a target="_blank" href="https://github.com/ARA-Labs/ARA-Demo">github.com/ARA-Labs/ARA-Demo</a>（arc-agi3/ls20/）。研究树的交互式全景见 <a target="_blank" href="https://raw.githack.com/ShokuhouMisak1/locksmith-blog/main/trajectory.html">trajectory.html</a>（75 节点逐步回放）；双胞胎对照的逐帧录像见 <a target="_blank" href="https://raw.githack.com/ShokuhouMisak1/locksmith-blog/main/l7_showcase.html">l7_showcase.html</a>。本文一切数字取自 <a target="_blank" href="https://github.com/ARA-Labs/ARA-Demo">demo-l7/metrics.md</a>（重审后口径）。</p>
-    <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。姊妹篇：<a target="_blank" href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>。</p>
+    <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。姊妹篇：<a target="_blank" href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>；本文标题致意 ARA 的开篇之作 <a target="_blank" href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">《The Last Human-Written Paper》</a>。</p>
   </div>
 </section>
 
