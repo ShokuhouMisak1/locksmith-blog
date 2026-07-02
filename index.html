@@ -169,7 +169,7 @@ sup a{border:none;font-family:var(--mono);font-size:11px}
   <div class="kick">ARC-AGI-3 实录 · 2026 年 6 月</div>
   <h1>AI is building its own research world model<span class="en">Opus 4.8 cleared ARC-AGI-3's final level in one shot</span></h1>
   <div style="margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink2)">Chengyang Shi · Jiachen Liu · 2026 年 7 月</div>
-  <p class="setup" style="font-size:15px;color:var(--ink2);margin-top:22px">两行标题各解释一句：research world model，指它边玩边写下的那套可查询的认识论状态（§5½ 有严格定义）；"one shot"，指它问过世界模型之后那次 63 步、零死亡的干净通关执行。这是这套方法的第一个公开 demo。</p>
+  <p class="setup" style="font-size:15px;color:var(--ink2);margin-top:22px">这是"科研世界模型"的第一个公开 demo：一个 agent 在它没见过的世界里边探索、边把摸到的法则写成一套可查询的认识论状态；卡在最后一关时，它回头查询这套状态，随后以 63 步、零死亡的一次干净执行通关——"one shot"说的就是这次执行。</p>
 
   <p class="setup" style="margin-top:44px">做研究这几年，我越来越觉得科研就是一个不停转的反馈循环：向未知的环境发一次调用，拿回观测，修掉假设里的 bug，再跑下一次。循环转得久了，反复踩过的坑、偶然跑通的边界条件会长进脑子里，压缩成一种叫"直觉"的东西。直觉听起来玄，拆开看不过是一堆耦合得很紧的启发式规则和历史约束——只是人的记忆维护不起这本明细账，只好把它压成黑盒。</p>
   <p class="setup">六月底我们做了一个实验：把一个 agent 放进一个它保证没见过的世界（ARC-AGI-3 的互动谜题 ls20），让它一边探索，一边把摸到的规律显式地写下来。它通了全部七关。然后是对照：克隆同一个模型，拿走它写的东西，换成前六关的完整通关答案，让它打同样没见过的第七关。对照组拿着与赢家攻这一关完全同额的算力，走了 5,168 步、死了 54 次，进展始终是零。</p>
