@@ -168,6 +168,7 @@ sup a{border:none;font-family:var(--mono);font-size:11px}
 <header class="hero">
   <div class="kick">ARC-AGI-3 实录 · 2026 年 6 月</div>
   <h1>AI is building its own research world model<span class="en">Opus 4.8 cleared ARC-AGI-3's final level in one shot</span></h1>
+  <div style="margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink2)">Chengyang Shi · 2026 年 7 月</div>
 
   <p class="setup" style="margin-top:44px">做研究这几年，我越来越觉得科研就是一个不停转的反馈循环：向未知的环境发一次调用，拿回观测，修掉假设里的 bug，再跑下一次。循环转得久了，反复踩过的坑、偶然跑通的边界条件会长进脑子里，压缩成一种叫"直觉"的东西。直觉听起来玄，拆开看不过是一堆耦合得很紧的启发式规则和历史约束——只是人的记忆维护不起这本明细账，只好把它压成黑盒。</p>
   <p class="setup">六月底我们做了一个实验：把一个 agent 放进一个它保证没见过的世界（ARC-AGI-3 的互动谜题 ls20），让它一边探索，一边把摸到的规律显式地写下来。它通了全部七关。然后是对照：克隆同一个模型，拿走它写的东西，换成前六关的完整通关答案，让它打同样没见过的第七关。对照组拿着与赢家攻这一关完全同额的算力，走了 5,168 步、死了 54 次，进展始终是零。</p>
@@ -637,8 +638,8 @@ is <span class="hot">cross-game, not yet warranted</span>).</pre>
     <p id="fn1"><b>注 1 · 计数器口径：</b>各节计数按 claims.md 十五条各自"首次被实战确认的关卡"归位：L1 七条（C01–C07，其中 C06/C07 由 L1 的通关本身证实）；L2 增至九；L3 十二；L4 十三；L5 十四；L6 十五；L7 零新增。§4 所记"否证在档 2"指 C03、C08，均标 refuted 保留原文。</p>
     <p id="fn2"><b>注 2 · 死亡口径：</b>§4 图中为全口径 18 次（含通关后的补充测试局）；主战役口径为 16 次（L2:5 / L3:7 / L6:1 / L7:3）。差异来自两局胜利后的诊断性运行。</p>
     <p id="fn3"><b>注 3 · token 口径：</b>约 157 万 = 仅 ls20 游玩 subagent（L2 54k / L3 300k / L4 341k / L5 155k / L6 467k / L7 251k）。这套账按 subagent 归户；<b>L1 标"未记"而非 0</b>：第一关在主会话里直接摸清、之后一律脚本重放，从未派过专属 subagent——它不在这个口径里，但当然不是免费的。每关数字是"以该关为主攻目标的全部 subagent"之和——含失败尝试，不是只算成功那次（例：L4 的三只 agent 里两只的任务书写着 "L4 reached but UNSOLVED"）。2026-07-02 已按原始 task 记录逐 agent 复核：15 只 agent、六个关卡逐关求和与上列数字一致。另有跨关溢出：L5/L6 的 agent 顺手做了后续关卡的侦察（L7 的第一次大侦察就记在 L6 的账上），L6 可能多计、L7 少计约 10–20 万。<b>双胞胎对照的算力核对（2026-07-02）：</b>配平口径 = input+output（本注的账本口径），由 agent 边跑边自查原始 transcript 停表：停表值 251,770，对 Arm A 第七关的 251,046，误差 +0.3%。若把 cache 写入也计入（全处理口径），对照组反而花到 Arm A 的约三倍（4.0M 对 1.33M）——步数 5,168 对 914。两种口径下它都不缺算力。出处说明：对照分多个 session 累积完成，同一只 agent、同一份 trace 连续计步（早期曾按步数预算试跑，已并入总账；分段边界与逐轮数字见 metrics.md）。另外两臂"每步 token"不可直接比：对照组多数时候一步一轮 API（每步读一帧 64×64 画面进上下文），后段改为脚本批量盲扫；本尊的 914 步同样大多经脚本批量执行，token 的大头花在替代步数的思考上。所以本文只对齐总量，不比单步。同期整个 session 全部 subagent 合计约 980 万——其中包括可视化、世界模型查询与结晶记录进程本身，属超算口径。</p>
-    <p id="fn4"><b>注 4 · 全部原始材料：</b>世界模型与录像已发布于 <a href="https://github.com/ARA-Labs/ARA-Demo">github.com/ARA-Labs/ARA-Demo</a>（arc-agi3/ls20/）。研究树的交互式全景见 <a href="trajectory.html">trajectory.html</a>（75 节点逐步回放）；双胞胎对照的逐帧录像见 <a href="l7_showcase.html">l7_showcase.html</a>。本文一切数字取自 <a href="https://github.com/ARA-Labs/ARA-Demo">demo-l7/metrics.md</a>（重审后口径）。</p>
-    <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。</p>
+    <p id="fn4"><b>注 4 · 全部原始材料：</b>世界模型与录像已发布于 <a href="https://github.com/ARA-Labs/ARA-Demo">github.com/ARA-Labs/ARA-Demo</a>（arc-agi3/ls20/）。研究树的交互式全景见 <a href="trajectory.html">trajectory.html</a>（75 节点逐步回放）；双胞胎对照的逐帧录像见 <a href="l7_showcase.html">l7_showcase.html</a>。本文一切数字取自 <a href="https://github.com/ARA-Labs/ARA-Demo">demo-l7/metrics.md</a>（重审后口径）。两臂的完整 agent 轨迹（含对照组全部 5,168 步的逐步日志）已整理为数据集：<a href="https://huggingface.co/datasets/ShokuhouMisak1/arc-agi3-ls20-agent-trajectories">HuggingFace · arc-agi3-ls20-agent-trajectories</a>。</p>
+    <p class="thanks"><b>致谢：</b>感谢与翁家翌（Jiayi Weng）的讨论对本文视角的启发。本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。</p>
   </div>
 </section>
 
