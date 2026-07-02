@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>可以提问的世界 — A World You Can Ask</title>
-<meta name="description" content="当一个 agent 搞懂了一个世界，这份理解存在哪里？我们让它边玩边写下自己的世界手册，再拿走手册做对照——换成标准答案的克隆体在同额算力下走了 5,168 步、死了 54 次，零进展。ARA 世界模型 × ARC-AGI-3 实录。">
+<title>AI is building its own research world model — Opus 4.8 × ARC-AGI-3</title>
+<meta name="description" content="科研不该只被压缩进权重和直觉里。我们让 Opus 4.8 在一个它没见过的世界里边探索边写下自己的科研世界模型，通了全部七关；换成标准答案的克隆体在同额算力下走了 5,168 步，零进展。ARC-AGI-3 实录。">
 <style>
 :root{
   --paper:#f7f3ec; --ink:#221f1a; --ink2:#57503f; --line:#e2daca;
@@ -167,10 +167,10 @@ sup a{border:none;font-family:var(--mono);font-size:11px}
 <!-- ═══════════════ §0 冷开场 ═══════════════ -->
 <header class="hero">
   <div class="kick"><a href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>姊妹篇 · ARC-AGI-3 实录</div>
-  <h1>可以提问的世界<span class="en">A World You Can Ask</span></h1>
+  <h1>AI is building its own research world model<span class="en">Opus 4.8 cleared ARC-AGI-3's final level in one shot</span></h1>
 
-  <p class="setup" style="margin-top:44px">做 agent 研究，有一个问题绕不开：当一个 agent"搞懂"了一个东西，这份理解存在哪里？在权重里，在 context 里，还是在它写下来的东西里？答案在哪，决定三件事：这份理解能不能被检查，能不能被纠正，能不能交给下一个头脑。</p>
-  <p class="setup">六月底我们做了一个实验。把一个 agent 放进 ARC-AGI-3 的游戏 ls20——没有规则说明，没有教程——让它一边玩，一边把学到的东西写下来。它通了全部七关。然后是对照：克隆同一个模型，拿走它写的笔记，换成前六关的完整通关答案，让它打同样没见过的第七关。对照组拿着与赢家攻这一关完全同额的算力，走了 5,168 步、死了 54 次，进展始终是零。</p>
+  <p class="setup" style="margin-top:44px">做研究这几年，我越来越觉得科研就是一个不停转的反馈循环：向未知的环境发一次调用，拿回观测，修掉假设里的 bug，再跑下一次。循环转得久了，反复踩过的坑、偶然跑通的边界条件会长进脑子里，压缩成一种叫"直觉"的东西。直觉听起来玄，拆开看不过是一堆耦合得很紧的启发式规则和历史约束——只是人的记忆维护不起这本明细账，只好把它压成黑盒。</p>
+  <p class="setup">六月底我们做了一个实验：把一个 agent 放进一个它保证没见过的世界（ARC-AGI-3 的互动谜题 ls20），让它一边探索，一边把摸到的规律显式地写下来。它通了全部七关。然后是对照：克隆同一个模型，拿走它写的东西，换成前六关的完整通关答案，让它打同样没见过的第七关。对照组拿着与赢家攻这一关完全同额的算力，走了 5,168 步、死了 54 次，进展始终是零。</p>
   <p class="setup">差别不在模型，也不在答案的质量——那些答案详细到坐标和按键。这篇文章想搞清楚的，是它写下来的那份东西里，到底有什么。</p>
 
   <div class="duo">
@@ -195,21 +195,19 @@ sup a{border:none;font-family:var(--mono);font-size:11px}
 <!-- ═══════════════ §1 理论 ═══════════════ -->
 <section id="s1">
   <div class="kicker">01 · 唯一讲道理的一节</div>
-  <h2><span class="no">§1</span>没有说明书，正是科学的处境</h2>
+  <h2><span class="no">§1</span>科研世界模型：把直觉从黑盒里拿出来</h2>
 
-  <p>开头那个问题有三个候选答案，这个实验押的是最后一个：写下来的东西。押它，是因为这是人类自己走过的路。没有头脑能看全世界——人也好，AI 也好，都只在一个小窗口里猜一个看不全的世界，却必须行动。而人类应对这件事的办法，认真数下来只有一招：把学到的写下来，让下一个头脑不用从头再来。基因把身体的经验传下去；文字把一辈子的经验传出去；数学更进一步，把"必然如此"传给了所有人。载体换了三次，动作是同一个。科学能滚雪球，靠的不是哪一代人特别聪明，而是这个动作没断过。</p>
+  <p>直觉长成黑盒，对人类是一种妥协：我们不可能把每一次失败的尝试、每一个被推翻的小假设都记成显式的档案，大脑只好把它们压缩存放。可是造 AI 科学家的时候，为什么要连这个局限一起模仿？既然直觉本质上是一套经验沉淀的系统，就应该能为 AI 显式地搭出来——一套能持续记录、追踪、调用的认知架构。我把它叫作<strong>科研世界模型</strong>（research world model）。</p>
 
-  <p>现在，轮到 AI 接着写了。往后的论文，多半会由 AI 来写、也由 AI 来读——可论文这个容器，是三百年前为人类读者设计的：它讲故事，报喜不报忧，精度写到"说服评审"为止。这笔账我们在<a href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">《The Last Human-Written Paper》</a>里细算过，这里只留一句结论：<strong>写下来的，不再是下一个头脑需要的。</strong></p>
+  <p>这条路和强化学习的老路正好相反。千万次交互被编译进权重，得到的是一种肌肉记忆：知道这个状态该按哪个键，说不出所以然，换个领域就失灵，也没法打开来 debug。我想要的不是肌肉记忆，是一张摊得开的地图——探索一个没有规则、没有导航的陌生世界时，把每一次交互的反馈直接沉淀成对底层法则的显式表达。科研不该只被压缩进模型权重和人的直觉里；它应该变成一个 AI 能持续<em>读、写、验证、继承、改写</em>的外部世界。</p>
 
-  <p>所以有了 <strong>ARA</strong>（Agent-Native Research Artifact），一个为 agent 写、也为 agent 读的研究容器：不讲故事，只留证据，死胡同原样在档。所以又有了它上面的<strong>世界模型</strong>：让这个容器不只是可以翻的档案，还是可以问的世界。</p>
+  <p>具体的载体，就是我们一直在做的 <a href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">ARA（Agent-Native Research Artifact）</a>：一个为 agent 写、也为 agent 读的研究容器——不讲故事，只留证据，死胡同原样在档；再在它上面架一层世界模型引擎，让这个容器不只是可以翻的档案，还是可以问的世界。这不再是教 AI 解一道题，而是问：它能不能给自己搭一套可读、可维护的科学理解。</p>
 
-  <p>不过话说到这里，都还只是主张——怎么验证？你需要一个足够小、也足够狠的世界：规则保密，行动收费，犯错赔命，没有教程。这次实验用的世界是 ARC-AGI-3 的 <code style="font-family:var(--mono);font-size:14px">ls20</code>，一个对 AI 保密规则的互动谜题基准。要通关，agent 必须以微缩的方式做科学家做的事：按动作、比对画面来做实验，提出假设，被证伪，建立理论，再把理论带到下一个现象面前。它是"AI 能不能做科学"的一个<strong>模式生物</strong>：小到可以端到端看完，完整到该有的都有。</p>
+  <p>验证它需要一个干净的考场，而最大的顾虑是数据污染：如果世界的规则和答案早就躺在训练语料里，就分不清 AI 是在探索还是在回忆。ls20 的好处正在这里——规则保密，行动收费，犯错赔命，没有教程；人类上手很快、轻松通关，AI 裸探索的通关率不到 1%。于是真正的问题变成：能不能让它在这里做一次真正的科研——探索、总结、反思、提出假设、再验证——把这个未知世界的物理法则一点点沉淀成自己的显式理解，最终靠这份理解通关。</p>
 
-  <p>所以这局游戏本身不是主角，它是一扇观察窗。我们想看的其实是个更一般的问题：一个 AI 是怎么理解一个未知世界的，那份理解存在哪里，以及能不能交给下一个头脑。</p>
+  <p>而这只是一个例子。它可以是一个游戏世界，也可以是一段蛋白质、一个没被解过的方程、一片还没有人绘制的科学前沿。我们真正想知道的，不是 AI 能不能通关，而是把它放到一个谁都没去过的地方时，它能不能像科学家那样，自己走出来。</p>
 
-  <p class="q">那么——这套人类爬了几万年的阶梯，一个 AI 自己爬一遍，会是什么样子？</p>
-
-  <p class="insight">智能，是为"看不全却要行动"造出来的东西。</p>
+  <p class="insight">科研，不该只被压缩进权重和直觉里。</p>
 </section>
 
 <!-- ═══════════════ §2 起名字 ═══════════════ -->
@@ -637,7 +635,7 @@ is <span class="hot">cross-game, not yet warranted</span>).</pre>
     <p id="fn3"><b>注 3 · token 口径：</b>约 157 万 = 仅 ls20 游玩 subagent（L2 54k / L3 300k / L4 341k / L5 155k / L6 467k / L7 251k）。这套账按 subagent 归户；<b>L1 标"未记"而非 0</b>：第一关在主会话里直接摸清、之后一律脚本重放，从未派过专属 subagent——它不在这个口径里，但当然不是免费的。每关数字是"以该关为主攻目标的全部 subagent"之和——含失败尝试，不是只算成功那次（例：L4 的三只 agent 里两只的任务书写着 "L4 reached but UNSOLVED"）。2026-07-02 已按原始 task 记录逐 agent 复核：15 只 agent、六个关卡逐关求和与上列数字一致。另有跨关溢出：L5/L6 的 agent 顺手做了后续关卡的侦察（L7 的第一次大侦察就记在 L6 的账上），L6 可能多计、L7 少计约 10–20 万。<b>双胞胎对照的算力核对（2026-07-02）：</b>配平口径 = input+output（本注的账本口径），由 agent 边跑边自查原始 transcript 停表：停表值 251,770，对 Arm A 第七关的 251,046，误差 +0.3%。若把 cache 写入也计入（全处理口径），对照组反而花到 Arm A 的约三倍（4.0M 对 1.33M）——步数 5,168 对 914。两种口径下它都不缺算力。出处说明：对照分多个 session 累积完成，同一只 agent、同一份 trace 连续计步（早期曾按步数预算试跑，已并入总账；分段边界与逐轮数字见 metrics.md）。另外两臂"每步 token"不可直接比：对照组多数时候一步一轮 API（每步读一帧 64×64 画面进上下文），后段改为脚本批量盲扫；本尊的 914 步同样大多经脚本批量执行，token 的大头花在替代步数的思考上。所以本文只对齐总量，不比单步。同期整个 session 全部 subagent 合计约 980 万——其中包括可视化、世界模型查询与手册记录进程本身，属超算口径。</p>
     <p id="fn4"><b>注 4 · Otto 的笔记本：</b>Clark &amp; Chalmers, <i>The Extended Mind</i> (1998)。正文所引四个条件中，第四条（"曾被本人有意识地背书"）作者自己也标注为可争议；对照组恰好前三条也一条不占，结论不依赖第四条。</p>
     <p id="fn5"><b>注 5 · 全部原始材料：</b>手册与录像已发布于 <a href="https://github.com/ARA-Labs/ARA-Demo">github.com/ARA-Labs/ARA-Demo</a>（arc-agi3/ls20/）。研究树的交互式全景见 <a href="trajectory.html">trajectory.html</a>（75 节点逐步回放）；双胞胎对照的逐帧录像见 <a href="l7_showcase.html">l7_showcase.html</a>。本文一切数字取自 <a href="https://github.com/ARA-Labs/ARA-Demo">demo-l7/metrics.md</a>（重审后口径）。</p>
-    <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。姊妹篇：<a href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>；本文标题致意 ARA 的开篇之作 <a href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">《The Last Human-Written Paper》</a>。</p>
+    <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。姊妹篇：<a href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>；尾声一节的标题致意 ARA 的开篇之作 <a href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">《The Last Human-Written Paper》</a>。</p>
   </div>
 </section>
 
