@@ -634,7 +634,7 @@ is <span class="hot">cross-game, not yet warranted</span>).</pre>
   <div class="fns">
     <p id="fn1"><b>注 1 · 计数器口径：</b>各节计数按 claims.md 十五条各自"首次被实战确认的关卡"归位：L1 七条（C01–C07，其中 C06/C07 由 L1 的通关本身证实）；L2 增至九；L3 十二；L4 十三；L5 十四；L6 十五；L7 零新增。§4 所记"否证在档 2"指 C03、C08，均标 refuted 保留原文。</p>
     <p id="fn2"><b>注 2 · 死亡口径：</b>§4 图中为全口径 18 次（含通关后的补充测试局）；主战役口径为 16 次（L2:5 / L3:7 / L6:1 / L7:3）。差异来自两局胜利后的诊断性运行。</p>
-    <p id="fn3"><b>注 3 · token 口径：</b>约 157 万 = 仅 ls20 游玩 subagent（L2 54k / L3 300k / L4 341k / L5 155k / L6 467k / L7 251k）。这套账按 subagent 归户；<b>L1 标"未计"而非 0</b>：第一关在主会话里直接摸清、之后一律脚本重放，从未派过专属 subagent——它不在这个口径里，但当然不是免费的。另有跨关溢出：L5/L6 的 agent 顺手做了后续关卡的侦察，L6 可能多计、L7 少计约 10–20 万。同期整个 session 全部 subagent 合计约 980 万——其中包括可视化、世界模型查询与手册记录进程本身，属超算口径。</p>
+    <p id="fn3"><b>注 3 · token 口径：</b>约 157 万 = 仅 ls20 游玩 subagent（L2 54k / L3 300k / L4 341k / L5 155k / L6 467k / L7 251k）。这套账按 subagent 归户；<b>L1 标"未记"而非 0</b>：第一关在主会话里直接摸清、之后一律脚本重放，从未派过专属 subagent——它不在这个口径里，但当然不是免费的。另有跨关溢出：L5/L6 的 agent 顺手做了后续关卡的侦察，L6 可能多计、L7 少计约 10–20 万。同期整个 session 全部 subagent 合计约 980 万——其中包括可视化、世界模型查询与手册记录进程本身，属超算口径。</p>
     <p id="fn4"><b>注 4 · Otto 的笔记本：</b>Clark &amp; Chalmers, <i>The Extended Mind</i> (1998)。正文所引四个条件中，第四条（"曾被本人有意识地背书"）作者自己也标注为可争议；对照组恰好前三条也一条不占，结论不依赖第四条。</p>
     <p id="fn5"><b>注 5 · 全部原始材料：</b>手册与录像已发布于 <a target="_blank" href="https://github.com/ARA-Labs/ARA-Demo">github.com/ARA-Labs/ARA-Demo</a>（arc-agi3/ls20/）。研究树的交互式全景见 <a target="_blank" href="https://raw.githack.com/ShokuhouMisak1/locksmith-blog/main/trajectory.html">trajectory.html</a>（75 节点逐步回放）；双胞胎对照的逐帧录像见 <a target="_blank" href="https://raw.githack.com/ShokuhouMisak1/locksmith-blog/main/l7_showcase.html">l7_showcase.html</a>。本文一切数字取自 <a target="_blank" href="https://github.com/ARA-Labs/ARA-Demo">demo-l7/metrics.md</a>（重审后口径）。</p>
     <p class="thanks"><b>致谢：</b>本文的世界观与蒋炎岩老师《我对 AGI 的理解》一讲多有相遇，谨致谢意；文中表述文责自负。谜题世界来自 ARC Prize 的 ARC-AGI-3 互动推理基准（ls20 "Locksmith"）。姊妹篇：<a target="_blank" href="https://amberljc.github.io/blog/2026-06-10-second-half-of-ai-for-science.html">《AI for Science 的下半场》</a>；本文标题致意 ARA 的开篇之作 <a target="_blank" href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">《The Last Human-Written Paper》</a>。</p>
@@ -696,7 +696,7 @@ window.FR={"dims":{"h":64,"w":64},"solve":{"r":[[5,465,3,8,5,52,3,16,5,46,3,20,5
     d.innerHTML='<div class="v">'+s[1]+'</div><div class="bar'+(s[2]?' hi':'')+'" style="height:'+Math.max(Math.round(s[1]/120*118),2)+'px"></div><div class="l">'+s[0]+'</div>';el.appendChild(d);});}
   var tok=[["L1",null,0],["L2",54,0],["L3",300,0],["L4",341,0],["L5",155,0],["L6",467,1],["L7",251,0]];
   if((el=document.getElementById('tokbars'))){tok.forEach(function(t){var d=document.createElement('div');d.className='col';
-    var v=(t[1]===null)?'未计':(t[1]+'k');
+    var v=(t[1]===null)?'未记':(t[1]+'k');
     var bar=(t[1]===null)?'<div class="bar na" style="height:24px"></div>'
                          :'<div class="bar'+(t[2]?' hi':'')+'" style="height:'+Math.max(Math.round(t[1]/467*118),2)+'px"></div>';
     d.innerHTML='<div class="v">'+v+'</div>'+bar+'<div class="l">'+t[0]+'</div>';el.appendChild(d);});}
