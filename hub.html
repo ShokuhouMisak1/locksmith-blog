@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI is building its own research world model — Opus 4.8 × ARC-AGI-3</title>
-<meta name="description" content="Research shouldn't live only in weights and intuition. We let Opus 4.8 explore a world it had never seen while writing its own research world model as it went — it cleared all seven levels. A clone handed the answer key instead spent the same compute on 5,168 steps with zero progress. A field report from ARC-AGI-3.">
+<meta name="description" content="ls20 (ARC-AGI-3): rules secret, every action billed — AI on bare exploration clears it less than 1% of the time. Opus 4.8 cleared all seven levels with the research world model it wrote as it played (an ARA); a clone handed the answer key instead spent the same compute on 5,168 steps with zero progress.">
 <style>
 :root{
   --paper:#f7f3ec; --ink:#221f1a; --ink2:#57503f; --line:#e2daca;
@@ -187,15 +187,15 @@ html.en .mirror{line-height:1.75}
   <div class="kick en">A field report from ARC-AGI-3 · June 2026</div>
   <h1>AI is building its own research world model<span class="sub">Opus 4.8 cleared ARC-AGI-3's final level in one shot</span></h1>
   <div style="margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink2)">Chengyang Shi · Xianglin Ji · Jiachen Liu · <span class="zh">2026 年 7 月</span><span class="en">July 2026</span></div>
-  <p class="setup zh" style="font-size:15px;color:var(--ink2);margin-top:22px">这是"科研世界模型"的第一个公开 demo：一个 agent 在它没见过的世界里边探索、边把摸到的法则写成一套可查询的认识论状态；卡在最后一关时，它回头查询这套状态，随后以 63 步、零死亡的一次干净执行通关——"one shot"说的就是这次执行。</p>
-  <p class="setup en" style="font-size:15px;color:var(--ink2);margin-top:22px">This is the first public demo of a "research world model": an agent explores a world it has never seen while writing the laws it discovers into a queryable epistemic state; stuck on the final level, it went back and queried that state, then cleared the level in one clean execution — 63 steps, zero deaths. That execution is what "one shot" refers to.</p>
+  <p class="setup zh" style="font-size:15px;color:var(--ink2);margin-top:22px">考场是 ARC-AGI-3 的互动谜题 ls20：规则保密，行动收费，犯错赔命，AI 裸探索的通关率不到 1%。这个 agent 一边玩、一边把摸到的法则写成自己的科研世界模型（一份 ARA），靠它通完七关；卡死的最后一关，它回头查询这套世界模型，然后 63 步、零死亡一次通过——"one shot"说的就是这次执行。</p>
+  <p class="setup en" style="font-size:15px;color:var(--ink2);margin-top:22px">The exam room is ls20, an interactive puzzle from ARC-AGI-3: rules secret, every action billed, mistakes paid in lives — AI on bare exploration clears it less than 1% of the time. This agent played while writing the laws it touched into a research world model of its own (an ARA), and cleared all seven levels with it; on the final level that had it stuck, it went back and queried that model, then passed in 63 steps with zero deaths — that run is the "one shot."</p>
 
-  <p class="setup zh" style="margin-top:44px">做研究这几年，我越来越觉得科研就是一个不停转的反馈循环：向未知的环境发一次调用，拿回观测，修掉假设里的 bug，再跑下一次。循环转得久了，反复踩过的坑、偶然跑通的边界条件会长进脑子里，压缩成一种叫"直觉"的东西。直觉听起来玄，拆开看不过是一堆耦合得很紧的启发式规则和历史约束——只是人的记忆维护不起这本明细账，只好把它压成黑盒。</p>
-  <p class="setup en" style="margin-top:44px">After a few years of doing research, I've come to see it as a feedback loop that never stops turning: send a call into an unknown environment, get an observation back, fix the bug in your hypothesis, run again. Keep the loop turning long enough and the pits you've stepped in twice, the boundary conditions that happened to work, grow into your head and compress into something called "intuition." Intuition sounds mystical; taken apart, it's a pile of tightly coupled heuristics and historical constraints — it's just that human memory can't maintain the itemized ledger, so it compresses the whole thing into a black box.</p>
-  <p class="setup zh">六月底我们做了一个实验：把一个 agent 放进一个它保证没见过的世界（ARC-AGI-3 的互动谜题 ls20），让它一边探索，一边把摸到的规律显式地写下来。它通了全部七关。然后是对照：克隆同一个模型，拿走它写的东西，换成前六关的完整通关答案，让它打同样没见过的第七关。对照组拿着与赢家攻这一关完全同额的算力，走了 5,168 步、死了 54 次，进展始终是零。</p>
-  <p class="setup en">At the end of June we ran an experiment: drop an agent into a world it was guaranteed never to have seen (ls20, an interactive puzzle from ARC-AGI-3) and have it write down, explicitly, every regularity it touched while exploring. It cleared all seven levels. Then the control: clone the same model, take away everything it had written, and hand the clone the complete walkthrough answers for the first six levels before setting it on the same unseen seventh level. With exactly the compute the winner had spent on that level, the control walked 5,168 steps, died 54 times, and made zero progress.</p>
-  <p class="setup zh">差别不在模型，也不在答案的质量——那些答案详细到坐标和按键。这篇文章想搞清楚的，是它写下来的那份东西里，到底有什么。</p>
-  <p class="setup en">The difference wasn't the model, and it wasn't the quality of the answers — those answers were specific down to coordinates and key presses. What this post tries to work out is what, exactly, was in the thing it wrote.</p>
+  <p class="setup zh" style="margin-top:44px">做研究这几年，我总觉得那种说不清道不明的"直觉"，拆开看就是一堆踩坑踩出来的规则——只是人脑记不下这本明细账，只好压成黑盒。六月底我们试了一件事：把一个 agent 丢进一个它保证没见过的世界，让它一边玩，一边把摸到的规律显式地写下来——写进一份 ARA 里，也就是这篇文章说的科研世界模型。它通了全部七关。</p>
+  <p class="setup en" style="margin-top:44px">After a few years of doing research, I've come to think that the murky thing we call "intuition" is really just a pile of rules learned by stepping in pits — the human brain can't keep the itemized ledger, so it compresses it all into a black box. At the end of June we tried something: drop an agent into a world it was guaranteed never to have seen and have it write down, explicitly, every regularity it touched while playing — into an ARA, the thing this post calls its research world model. It cleared all seven levels.</p>
+  <p class="setup zh">然后是对照：克隆同一个模型，拿走它写的东西，换成前六关详细到坐标和按键的通关答案，让它打同样没见过的第七关。同额算力下，它走了 5,168 步、死了 54 次，进展是零。</p>
+  <p class="setup en">Then the control: clone the same model, take away everything it wrote, hand the clone walkthrough answers for the first six levels — specific down to coordinates and key presses — and set it on the same unseen seventh level. On the same compute, it walked 5,168 steps, died 54 times, and made zero progress.</p>
+  <p class="setup zh">差别不在模型，也不在答案的质量。这篇文章想搞清楚的是：它写下来的那份东西里，到底有什么。</p>
+  <p class="setup en">The difference wasn't the model, and it wasn't the quality of the answers. What this post tries to work out is: what, exactly, was in the thing it wrote.</p>
 
   <div class="duo">
     <div class="cell">
@@ -1026,8 +1026,8 @@ window.FR={"dims":{"h":64,"w":64},"solve":{"r":[[5,465,3,8,5,52,3,16,5,46,3,20,5
 (function(){
   /* ── EN/CN 切换 ── */
   var DESC={
-    en:"Research shouldn't live only in weights and intuition. We let Opus 4.8 explore a world it had never seen while writing its own research world model as it went — it cleared all seven levels. A clone handed the answer key instead spent the same compute on 5,168 steps with zero progress. A field report from ARC-AGI-3.",
-    zh:"科研不该只被压缩进权重和直觉里。我们让 Opus 4.8 在一个它没见过的世界里边探索边写下自己的科研世界模型，通了全部七关；换成标准答案的克隆体在同额算力下走了 5,168 步，零进展。ARC-AGI-3 实录。" /* Lzh */
+    en:"ls20 (ARC-AGI-3): rules secret, every action billed — AI on bare exploration clears it less than 1% of the time. Opus 4.8 cleared all seven levels with the research world model it wrote as it played (an ARA); a clone handed the answer key instead spent the same compute on 5,168 steps with zero progress.",
+    zh:"ARC-AGI-3 的 ls20：规则保密、行动收费，AI 裸探索通关率不到 1%。Opus 4.8 靠边玩边写的科研世界模型（一份 ARA）通完七关；换成标准答案的克隆体在同额算力下走了 5,168 步，零进展。" /* Lzh */
   };
   /* 默认属性一律英文；中文版住在 data-zh-*，首次切换时把英文原值备份进 data-en-* */
   var SWAPS=[["data-zh-alt","alt"],["data-zh-title","title"],["data-zh-aria","aria-label"],["data-zh-counter","data-counter"]];
