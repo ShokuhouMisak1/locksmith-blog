@@ -186,7 +186,7 @@ html.en .mirror{line-height:1.75}
   <div class="kick zh">ARC-AGI-3 实录 · 2026 年 6 月</div>
   <div class="kick en">A field report from ARC-AGI-3 · June 2026</div>
   <h1>AI is building its own research world model<span class="sub">Opus 4.8 cleared ARC-AGI-3's final level in one shot</span></h1>
-  <div style="margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink2)">Chengyang Shi · Jiachen Liu · <span class="zh">2026 年 7 月</span><span class="en">July 2026</span></div>
+  <div style="margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink2)">Chengyang Shi · Xianglin Ji · Jiachen Liu · <span class="zh">2026 年 7 月</span><span class="en">July 2026</span></div>
   <p class="setup zh" style="font-size:15px;color:var(--ink2);margin-top:22px">这是"科研世界模型"的第一个公开 demo：一个 agent 在它没见过的世界里边探索、边把摸到的法则写成一套可查询的认识论状态；卡在最后一关时，它回头查询这套状态，随后以 63 步、零死亡的一次干净执行通关——"one shot"说的就是这次执行。</p>
   <p class="setup en" style="font-size:15px;color:var(--ink2);margin-top:22px">This is the first public demo of a "research world model": an agent explores a world it has never seen while writing the laws it discovers into a queryable epistemic state; stuck on the final level, it went back and queried that state, then cleared the level in one clean execution — 63 steps, zero deaths. That execution is what "one shot" refers to.</p>
 
@@ -230,8 +230,8 @@ html.en .mirror{line-height:1.75}
   <p class="zh">这条路和强化学习的老路正好相反。千万次交互被编译进权重，得到的是一种肌肉记忆：知道这个状态该按哪个键，说不出所以然，换个领域就失灵，也没法打开来 debug。我想要的不是肌肉记忆，是一张摊得开的地图——探索一个没有规则、没有导航的陌生世界时，把每一次交互的反馈直接沉淀成对底层法则的显式表达。科研不该只被压缩进模型权重和人的直觉里；它应该变成一个 AI 能持续<em>读、写、验证、继承、改写</em>的外部世界。</p>
   <p class="en">This runs exactly opposite to the old road of reinforcement learning. Compile tens of millions of interactions into weights and what you get is muscle memory: it knows which key to press in this state, can't say why, fails the moment the domain changes, and can't be opened up and debugged. What I want isn't muscle memory but a map you can spread out on a table — exploring a strange world with no rules and no navigation, let the feedback from every interaction settle directly into an explicit statement of the underlying laws. Research shouldn't live compressed inside model weights and human intuition; it should become an external world that an AI can continuously <em>read, write, verify, inherit, and rewrite</em>.</p>
 
-  <p class="zh">这套架构的实现，我们叫它 ARA（Agent-Native Research Artifact）：一个为 agent 写、也为 agent 读的研究容器——不讲故事，只留证据，死胡同原样在档；再在它上面架一层世界模型引擎，让这个容器不只是可以翻的档案，还是可以问的世界。这不再是教 AI 解一道题，而是问：它能不能给自己搭一套可读、可维护的科学理解。</p>
-  <p class="en">Our implementation of this architecture is called an ARA (Agent-Native Research Artifact): a research container written by agents, for agents — no storytelling, only evidence, dead ends kept on file exactly as they happened; on top of it sits a world-model engine that turns the container from an archive you can leaf through into a world you can ask. The question is no longer whether we can teach an AI to solve one puzzle; it's whether it can build itself a readable, maintainable scientific understanding.</p>
+  <p class="zh">这套架构的实现，我们叫它 ARA（Agent-Native Research Artifact）：一个为 agent 写、也为 agent 读的研究容器——不讲故事，只留证据，死胡同原样在档；再在它上面架一层世界模型引擎，让这个容器不只是可以翻的档案，还是可以问的世界。研究的容器为什么要从论文格式重造起，更早的一篇 <a href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">The Last Human-Written Paper</a> 写过。这不再是教 AI 解一道题，而是问：它能不能给自己搭一套可读、可维护的科学理解。</p>
+  <p class="en">Our implementation of this architecture is called an ARA (Agent-Native Research Artifact): a research container written by agents, for agents — no storytelling, only evidence, dead ends kept on file exactly as they happened; on top of it sits a world-model engine that turns the container from an archive you can leaf through into a world you can ask. The case for rebuilding research's container away from the paper format was made in an earlier post, <a href="https://amberljc.github.io/blog/2026-04-24-the-last-human-written-paper.html">The Last Human-Written Paper</a>. The question is no longer whether we can teach an AI to solve one puzzle; it's whether it can build itself a readable, maintainable scientific understanding.</p>
 
   <p class="zh">验证它需要一个干净的考场，而最大的顾虑是数据污染：如果世界的规则和答案早就躺在训练语料里，就分不清 AI 是在探索还是在回忆。ls20 的好处正在这里——规则保密，行动收费，犯错赔命，没有教程；人类上手很快、轻松通关，AI 裸探索的通关率不到 1%。于是真正的问题变成：能不能让它在这里做一次真正的科研——探索、总结、反思、提出假设、再验证——把这个未知世界的物理法则一点点沉淀成自己的显式理解，最终靠这份理解通关。</p>
   <p class="en">Testing this needs a clean exam room, and the biggest worry is data contamination: if the world's rules and answers already sit somewhere in the training corpus, there's no telling exploration from recollection. This is exactly what ls20 offers — rules kept secret, every action billed, mistakes paid in lives, no tutorial; humans pick it up quickly and clear it with ease, while AI on bare exploration clears it less than 1% of the time. So the real question becomes: can it do a genuine piece of research here — explore, summarize, reflect, hypothesize, verify — settling the physics of this unknown world, bit by bit, into an explicit understanding of its own, and finally clear the game on that understanding.</p>
@@ -637,6 +637,95 @@ Read these to get up to speed on the mechanics already learned (Levels 1–2 sol
 press — step it several times to learn its full cycle before planning</span></pre>
     <div class="tr zh">任务书前几行：玩，然后用 research-manager 技能沉淀所学（不许手写文件）；动手前先读积累下来的状态（Phase 0）；并背着 C10 的元教训进场——别从一次按压推断开关的变换。</div>
   </div>
+
+  <figure>
+    <svg viewBox="0 0 700 400" style="width:100%;height:auto;display:block" aria-label="The agent workflow: read first, then the act–observe–reflect loop; writes only via research-manager at closure; read-only queries via wm-retrieve/wm-predict" data-zh-aria="agent 工作流：开局先读，行动—观测—推演循环；写入只经 research-manager 在闭合时刻发生；查询走 wm-retrieve/wm-predict 只读">
+      <defs>
+        <marker id="mk-i" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#57503f"/></marker>
+        <marker id="mk-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2456a6"/></marker>
+        <marker id="mk-bs" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M8,0 L0,4 L8,8 z" fill="#2456a6"/></marker>
+        <marker id="mk-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#b23a2e"/></marker>
+      </defs>
+      <g style="font-family:var(--mono)">
+        <!-- 玩家循环标题 -->
+        <text class="zh" x="12" y="30" font-size="10.5" fill="#57503f">玩家 agent 的循环</text>
+        <text class="en" x="12" y="30" font-size="10.5" fill="#57503f">the player agent's loop</text>
+
+        <!-- 循环三节点 -->
+        <rect x="108" y="57" width="104" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text class="zh" x="160" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">行动</text>
+        <text class="en" x="160" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">act</text>
+        <text class="zh" x="160" y="94" text-anchor="middle" font-size="8" fill="#57503f">按一次键 · 花预算</text>
+        <text class="en" x="160" y="94" text-anchor="middle" font-size="8" fill="#57503f">press a key · spend budget</text>
+
+        <rect x="206" y="189" width="104" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text class="zh" x="258" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">观测</text>
+        <text class="en" x="258" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">observe</text>
+        <text class="zh" x="258" y="226" text-anchor="middle" font-size="8" fill="#57503f">帧差：什么变了</text>
+        <text class="en" x="258" y="226" text-anchor="middle" font-size="8" fill="#57503f">frame diff: what changed</text>
+
+        <rect x="10" y="189" width="104" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text class="zh" x="62" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">推演</text>
+        <text class="en" x="62" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">reflect</text>
+        <text class="zh" x="62" y="226" text-anchor="middle" font-size="8" fill="#57503f">纸上假设 · 离线 BFS</text>
+        <text class="en" x="62" y="226" text-anchor="middle" font-size="8" fill="#57503f">hypotheses · offline BFS</text>
+
+        <!-- 循环箭头 -->
+        <path d="M 205,103 Q 258,128 258,183" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <path d="M 200,224 Q 160,244 120,224" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <path d="M 62,183 Q 66,110 102,84" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+
+        <!-- research-manager -->
+        <rect x="324" y="120" width="128" height="58" rx="10" fill="#14161a"/>
+        <text x="388" y="141" text-anchor="middle" font-size="10" font-weight="700" fill="#ccd5df">research-manager</text>
+        <text class="zh" x="388" y="155" text-anchor="middle" font-size="8.5" fill="#8a94a2">唯一写入者</text>
+        <text class="en" x="388" y="155" text-anchor="middle" font-size="8.5" fill="#8a94a2">the sole writer</text>
+        <text class="zh" x="388" y="168" text-anchor="middle" font-size="8.5" fill="#8a94a2">只在闭合时刻结晶</text>
+        <text class="en" x="388" y="168" text-anchor="middle" font-size="8" fill="#8a94a2">crystallizes at closure</text>
+
+        <!-- 写入路径（红）：三支分别指向 logic/ staging/ trace/ -->
+        <path d="M 306,196 Q 316,178 324,164" fill="none" stroke="#b23a2e" stroke-width="1.5" marker-end="url(#mk-r)"/>
+        <text class="zh" x="318" y="202" font-size="8.5" fill="#b23a2e">闭合时</text>
+        <text class="en" x="318" y="202" font-size="8.5" fill="#b23a2e">at closure</text>
+        <path d="M 452,136 L 478,124" fill="none" stroke="#b23a2e" stroke-width="1.5" marker-end="url(#mk-r)"/>
+        <path d="M 452,160 L 478,170" fill="none" stroke="#b23a2e" stroke-width="1.5" marker-end="url(#mk-r)"/>
+        <path d="M 440,178 Q 458,206 476,220" fill="none" stroke="#b23a2e" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#mk-r)"/>
+
+        <!-- ARA 容器 -->
+        <rect x="468" y="52" width="210" height="212" rx="12" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text x="573" y="76" text-anchor="middle" font-size="14" font-weight="700" fill="#221f1a">ARA</text>
+        <text class="zh" x="573" y="90" text-anchor="middle" font-size="8.5" fill="#57503f">科研世界模型 · 认识论状态</text>
+        <text class="en" x="573" y="90" text-anchor="middle" font-size="8.5" fill="#57503f">research world model · epistemic state</text>
+        <rect x="482" y="100" width="182" height="44" rx="6" fill="#f7f3ec" stroke="#e2daca"/>
+        <text x="492" y="118" font-size="11" font-weight="700" fill="#221f1a">logic/</text>
+        <text class="zh" x="492" y="133" font-size="8.5" fill="#57503f">当前最佳理解 · 可改写</text>
+        <text class="en" x="492" y="133" font-size="8.5" fill="#57503f">best current understanding · rewritable</text>
+        <rect x="482" y="150" width="182" height="44" rx="6" fill="#f7f3ec" stroke="#e2daca"/>
+        <text x="492" y="168" font-size="11" font-weight="700" fill="#221f1a">staging/</text>
+        <text class="zh" x="492" y="183" font-size="8.5" fill="#57503f">还不敢结晶的观察</text>
+        <text class="en" x="492" y="183" font-size="8.5" fill="#57503f">observations not yet crystallized</text>
+        <rect x="482" y="200" width="182" height="44" rx="6" fill="#f7f3ec" stroke="#e2daca"/>
+        <text x="492" y="218" font-size="11" font-weight="700" fill="#221f1a">trace/</text>
+        <text class="zh" x="492" y="233" font-size="8.5" fill="#57503f">全部历程 · 只追加</text>
+        <text class="en" x="492" y="233" font-size="8.5" fill="#57503f">the full journey · append-only</text>
+
+        <!-- 读路径（蓝） -->
+        <path d="M 468,70 C 384,36 298,40 216,66" fill="none" stroke="#2456a6" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#mk-b)"/>
+        <text class="zh" x="342" y="30" text-anchor="middle" font-size="9.5" fill="#2456a6">Phase 0 · 开局先读，再碰手柄</text>
+        <text class="en" x="342" y="30" text-anchor="middle" font-size="9.5" fill="#2456a6">Phase 0 · read first, then touch the controls</text>
+        <path d="M 118,240 C 240,306 360,304 466,254" fill="none" stroke="#2456a6" stroke-width="1.5" marker-start="url(#mk-bs)" marker-end="url(#mk-b)"/>
+        <text class="zh" x="292" y="302" text-anchor="middle" font-size="9.5" fill="#2456a6">卡死时：wm-retrieve / wm-predict · 只读的问答</text>
+        <text class="en" x="292" y="302" text-anchor="middle" font-size="9.5" fill="#2456a6">when stuck: wm-retrieve / wm-predict · read-only Q&amp;A</text>
+
+        <!-- 传承 -->
+        <line x1="40" y1="336" x2="660" y2="336" stroke="#e2daca"/>
+        <text class="zh" x="350" y="362" text-anchor="middle" font-size="9.5" fill="#57503f">一个 context 耗尽而死后，下一个从 Phase 0 重新读起——遗嘱就写在 trace/ 里（§5 的 N72）</text>
+        <text class="en" x="350" y="362" text-anchor="middle" font-size="9.5" fill="#57503f">when a context dies, the next one starts again from Phase 0 — the will is right there in trace/ (N72, §5)</text>
+      </g>
+    </svg>
+    <figcaption class="zh"><b>整个 agent 工作流的读写时序。</b>开局先读（Phase 0，蓝色虚线）；随后在行动—观测—推演的循环里前进，理论免费、行动收费；卡死时不加倍试错，而是经 wm-retrieve / wm-predict 对这套状态做只读的问答（蓝色实线）。写入（红色）不发生在循环里：只在闭合时刻、只经 research-manager——有结果的进 logic/，没结果的留 staging/，每一步历程原样追加进 trace/。</figcaption>
+    <figcaption class="en"><b>When reads and writes happen in the agent workflow.</b> Read first at session start (Phase 0, dashed blue); then advance through the act–observe–reflect loop, where theory is free and actions are billed; when stuck, don't double down on trial and error — put read-only questions to this state via wm-retrieve / wm-predict (solid blue). Writes (red) never happen inside the loop: only at moments of closure, only through research-manager — outcomes enter logic/, the undecided stays in staging/, and every step of the journey is appended verbatim to trace/.</figcaption>
+  </figure>
 
   <p class="zh">现在你知道这套认识论状态长什么样、也知道它是怎么长出来的了。下一节的消融拿走红色的部分——只留下绿色的标准答案。</p>
   <p class="en">Now you know what this epistemic state looks like, and how it grew. The next section's ablation takes away everything in red — leaving only the standard answers in green.</p>
