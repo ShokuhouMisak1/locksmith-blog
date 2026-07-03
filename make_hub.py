@@ -43,6 +43,14 @@ def main():
     if leftovers:
         sys.exit(f"unresolved asset refs: {leftovers}")
 
+    # completeness guard: a truncated index.html once shipped with the whole
+    # tail (§6–§8, footnotes, scripts) missing — refuse to build one again.
+    if n_js != 1 or n_link < 2:
+        sys.exit(f"index.html looks truncated: {n_js} scripts / {n_link} links processed")
+    for marker in ("</html>", 'id="fn4"', "GAME COMPLETE"):
+        if marker not in html:
+            sys.exit(f"index.html looks truncated: missing {marker!r}")
+
     (ROOT / "hub.html").write_text(html, encoding="utf-8")
     print(f"hub.html written: {n_img} images inlined, {n_js} script inlined, {n_link} links absolutized")
 
