@@ -317,12 +317,12 @@ middle row (2 states); L2's switch (<span class="hot">R9C9</span>) is a 4-state 
   <p class="en"><strong>Step two: drawing the operations as a map.</strong> In its notes a panel state looks like this: <code style="font-family:var(--mono);font-size:14px">110/011/101</code> — ciphertext again. But the string is really a 3×3 board of lights, 1 lit, 0 dark. Drawn out, it stops being ciphertext:</p>
 
   <div class="lights" id="pring"></div>
-  <p class="lightcap zh">P 的全部家当：六个状态，一步一格，六步一圈（它管这个圈叫 orbit B——轨道，意思就是光按 P 能到的全部状态，一共这六个）。一百九十年前 Babbage 就说过这件事：代数记号的本领，是"把大量的意义压进狭小的空间"。</p>
-  <p class="lightcap en">Everything P owns: six states, one notch per press, a full circle in six (it calls the circle orbit B — an orbit: every state P alone can reach, all six of them). Babbage said it a hundred and ninety years ago: the power of algebraic notation is to "condense into small space, a large amount of meaning."</p>
+  <p class="lightcap zh">P 的全部家当就这六个状态：一步一格，六步转回原点。它管这个圈叫 orbit B——轨道：光按 P，出不了这个圈。一百九十年前 Babbage 说过，代数记号的本事，就是"把大量的意义压进狭小的空间"。</p>
+  <p class="lightcap en">These six states are all P owns: one notch per press, back where you started in six. It calls the circle orbit B — an orbit: press only P and you never leave it. Babbage said it a hundred and ninety years ago — the whole point of algebraic notation is to "condense into small space, a large amount of meaning."</p>
 
   <div class="lights" id="qpair"></div>
-  <p class="lightcap zh">Q 只做一件事：整板顺时针转 90°。左边的状态经它一转，恰好是右边——第七关会再见到这一转。</p>
-  <p class="lightcap en">Q does exactly one thing: rotate the whole board 90° clockwise. Turn the state on the left once and you get precisely the one on the right — a turn we'll meet again on level 7.</p>
+  <p class="lightcap zh">Q 只干一件事：把整块板顺时针转 90°。左边的状态转一下，就成了右边。这一转在第七关还会出现。</p>
+  <p class="lightcap en">Q does one thing: rotate the whole board 90° clockwise. Turn the left state once and you get the right one. The same turn shows up again on level 7.</p>
 
   <p class="zh"><strong>第三步，发现轨道与桥。</strong>第六关把难度加倍：两把锁，其中一把的目标图案，光按 P 永远到不了——它在 P 够不着的另一个圈里。它没有继续撞，而是写下了这一段：</p>
   <p class="en"><strong>Step three: discovering orbits and bridges.</strong> Level 6 doubles the stakes: two locks, and one lock's target pattern can never be reached by P alone — it lives in another circle P can't touch. Instead of continuing to bang on it, it wrote this:</p>
@@ -454,8 +454,8 @@ L4 win.</pre>
     <figcaption class="en">A real frame from level 7. The grey isn't wall, it's <b>the unknown</b> — the lit circle moves with the block, like carrying a lamp through someone else's house, looking for a key.</figcaption>
   </figure>
 
-  <p class="zh">它举着灯把屋子摸了一遍，然后撞上了那个死局：钥匙盒锁在一个口袋里，四面是墙，传送门也进不去——口袋只有锁开了才开；而按照它自己的 C07 定律，开锁需要先读到目标图案，目标图案又在钥匙盒上。要开门得先进门。侦察了 515 步之后，这个 context 的窗口见了底——context 就是模型一次会话能装下的全部记忆，装满了就得换人。它没有解开这一关。</p>
-  <p class="en">It carried the lamp through the whole house, then hit the deadlock: the key-box is locked inside a pocket, walled on every side, unreachable even by portal — the pocket only opens once the lock is open; and by its own law C07, opening the lock requires first reading the target pattern, which sits on the key-box. To get through the door you must already be through the door. After 515 steps of reconnaissance, this context's window ran out — a context being everything a model can hold in one session; when it fills up, someone new takes over. It did not solve the level.</p>
+  <p class="zh">它举着灯把屋子摸了一遍，然后撞上了那个死局：钥匙盒锁在一个口袋里，四面是墙，传送门也进不去——口袋只有锁开了才开；而按照它自己的 C07 定律，开锁需要先读到目标图案，目标图案又在钥匙盒上。要开门得先进门。侦察了 515 步之后，这个 context 的窗口见了底。它没有解开这一关。</p>
+  <p class="en">It carried the lamp through the whole house, then hit the deadlock: the key-box is locked inside a pocket, walled on every side, unreachable even by portal — the pocket only opens once the lock is open; and by its own law C07, opening the lock requires first reading the target pattern, which sits on the key-box. To get through the door you must already be through the door. After 515 steps of reconnaissance, this context's window ran out. It did not solve the level.</p>
 
   <p class="zh">但它留了遗嘱——一份写给下一个 session 的交接计划：</p>
   <p class="en">But it left a will — a handoff plan written for the next session:</p>
@@ -557,8 +557,8 @@ Phases (each idempotent, callable separately so I can supervise):
   <h2 class="zh"><span class="no">§5½</span>它不是记忆，是认识论状态</h2>
   <h2 class="en"><span class="no">§5½</span>Not memory — an epistemic state</h2>
 
-  <p class="zh">故事讲到这里，该把"科研世界模型"说严格了。它不是日志，不是 RAG（给模型外挂一个检索库），不是更长的 context，也不只是知识图谱——那些都只回答"存了什么"。它是一套<strong>持续演化的认识论状态</strong>：定义对象和概念；提出可反驳的假设；记录实验干预与观测；给每条结论保存证据来源、置信度和适用边界；把失败转化为约束；并允许未来的 agent 预测、质疑、复现、改写过去的结论。这个定义的每个从句都有实物。在做消融之前，把它整个放上解剖台，逐条验明：</p>
-  <p class="en">With the story this far along, it's time to make "research world model" precise. It is not a log, not RAG (a retrieval store bolted onto the model), not a longer context, and not merely a knowledge graph — those only answer "what got stored." It is a <strong>continuously evolving epistemic state</strong>: it defines objects and concepts; poses refutable hypotheses; records experimental interventions and observations; keeps, for every conclusion, its evidence sources, confidence, and scope of validity; turns failures into constraints; and lets future agents predict, question, reproduce, and rewrite past conclusions. Every clause of this definition has a physical exhibit. Before the ablation, lay the whole thing on the dissection table and verify it clause by clause:</p>
+  <p class="zh">故事讲到这里，该把"科研世界模型"说严格了。它不是日志，不是 RAG，不是更长的 context，也不只是知识图谱——那些都只回答"存了什么"。它是一套<strong>持续演化的认识论状态</strong>：定义对象和概念；提出可反驳的假设；记录实验干预与观测；给每条结论保存证据来源、置信度和适用边界；把失败转化为约束；并允许未来的 agent 预测、质疑、复现、改写过去的结论。这个定义的每个从句都有实物。在做消融之前，把它整个放上解剖台，逐条验明：</p>
+  <p class="en">With the story this far along, it's time to make "research world model" precise. It is not a log, not RAG, not a longer context, and not merely a knowledge graph — those only answer "what got stored." It is a <strong>continuously evolving epistemic state</strong>: it defines objects and concepts; poses refutable hypotheses; records experimental interventions and observations; keeps, for every conclusion, its evidence sources, confidence, and scope of validity; turns failures into constraints; and lets future agents predict, question, reproduce, and rewrite past conclusions. Every clause of this definition has a physical exhibit. Before the ablation, lay the whole thing on the dissection table and verify it clause by clause:</p>
 
   <div class="wb">
     <div class="bar"><i></i><span class="zh">ara-ls20/ · 目录结构（<span style="color:#7ee29a">绿 = 消融保留</span> · <span style="color:#ff9d8f">红 = 消融拿走</span>）</span><span class="en">ara-ls20/ · directory layout (<span style="color:#7ee29a">green = kept in the ablation</span> · <span style="color:#ff9d8f">red = taken away</span>)</span></div>
