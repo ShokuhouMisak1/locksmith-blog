@@ -214,8 +214,8 @@ html.en .mirror{line-height:1.75}
   <div class="kick en">A field report · June 2026</div>
   <h1>AI is building its own research world model<span class="sub">Opus 4.8 cleared the final level of a game it had never seen, in one shot</span></h1>
   <div style="margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink2)">Chengyang Shi · Xianglin Ji · Jiachen Liu · <span class="zh">2026 年 7 月</span><span class="en">July 2026</span></div>
-  <p class="setup zh" style="font-size:15px;color:var(--ink2);margin-top:22px">做研究这几年，我总觉得那种说不清道不明的"直觉"，拆开看就是一堆踩坑踩出来的规则；只是人脑记不下这本明细账，只好压成黑盒，也没法完整交给下一个人。造 AI 科学家的时候，这个局限没有理由照抄：压进权重的经验是肌肉记忆，说不出所以然，也打不开来查。我们想验证的是另一条路：让 agent 把理解放在身体外面，写下来，可以查询，可以继承。六月底，我们把一个 agent 丢进一个它保证没见过的世界（一个规则保密、行动收费、犯错赔命的互动谜题），让它一边玩，一边把摸到的规律显式写进一份自己的科研世界模型（这个容器我们叫它 ARA）。它通了全部七关：卡死的最后一关，它回头查询这份世界模型，破局后 63 步、零死亡一次通过。对照组是同一个模型的克隆，没有世界模型，只带前六关详细到坐标和按键的标准答案，进的是同一个没见过的第七关：同额算力，5,168 步，零进展。</p>
-  <p class="setup en" style="font-size:15px;color:var(--ink2);margin-top:22px">After a few years of doing research, I've come to think that the murky thing we call "intuition" is really a pile of rules learned by stepping in pits; the human brain can't keep the itemized ledger, so it compresses the pile into a black box, one that can't be handed over whole to the next person. There's no reason an AI scientist has to copy that limitation: experience pressed into weights is muscle memory, unable to say why, impossible to open up and check. We wanted to test the other road: let an agent keep its understanding outside its body, written down, queryable, inheritable. At the end of June we dropped one into a world it was guaranteed never to have seen (an interactive puzzle where the rules are secret, every action is billed, and mistakes cost lives) and had it write each regularity it touched into a research world model of its own (we call the container an ARA). It cleared all seven levels: on the last one, where it got stuck, it went back and queried the model, then passed in 63 steps with zero deaths. The control was a clone of the same model with no world model, only walkthrough answers for the first six levels, specific down to coordinates and key presses, set on the same unseen seventh level: same compute, 5,168 steps, zero progress.</p>
+  <p class="setup zh" style="font-size:15px;color:var(--ink2);margin-top:22px">做研究这几年，我总觉得那种说不清道不明的"直觉"，拆开看就是一堆踩坑踩出来的规则；只是人脑记不下这本明细账，只好压成黑盒，也没法完整交给下一个人。造 AI 科学家的时候，这个局限没有理由照抄：压进权重的经验是肌肉记忆，说不出所以然，也打不开来查。我们想验证的是另一条路：让 agent 把理解放在身体外面，写下来，可以查询，可以继承。六月底，我们把一个 agent 丢进一个它保证没见过的世界（一个规则保密、行动收费、犯错赔命的互动谜题），让它一边玩，一边把摸到的规律显式写进一份自己的科研世界模型。它通了全部七关：卡死的最后一关，它回头查询这份世界模型，破局后 63 步、零死亡一次通过。对照组是同一个模型的克隆，没有世界模型，只带前六关详细到坐标和按键的标准答案，进的是同一个没见过的第七关：同额算力，5,168 步，零进展。</p>
+  <p class="setup en" style="font-size:15px;color:var(--ink2);margin-top:22px">After a few years of doing research, I've come to think that the murky thing we call "intuition" is really a pile of rules learned by stepping in pits; the human brain can't keep the itemized ledger, so it compresses the pile into a black box, one that can't be handed over whole to the next person. There's no reason an AI scientist has to copy that limitation: experience pressed into weights is muscle memory, unable to say why, impossible to open up and check. We wanted to test the other road: let an agent keep its understanding outside its body, written down, queryable, inheritable. At the end of June we dropped one into a world it was guaranteed never to have seen (an interactive puzzle where the rules are secret, every action is billed, and mistakes cost lives) and had it write each regularity it touched into a research world model of its own. It cleared all seven levels: on the last one, where it got stuck, it went back and queried the model, then passed in 63 steps with zero deaths. The control was a clone of the same model with no world model, only walkthrough answers for the first six levels, specific down to coordinates and key presses, set on the same unseen seventh level: same compute, 5,168 steps, zero progress.</p>
 
   <p class="setup zh" style="margin-top:44px">差别不在模型，也不在答案的质量。这篇文章想搞清楚的是：它写下来的那份东西里，到底有什么。</p>
   <p class="setup en" style="margin-top:44px">The difference wasn't the model, and it wasn't the quality of the answers. What this post tries to work out is what, exactly, was in the thing it wrote.</p>
@@ -584,7 +584,7 @@ Phases (each idempotent, callable separately so I can supervise):
   <p class="en">With the story this far along, it's time to make "research world model" precise. It is not a log, not RAG, not a longer context, and not merely a knowledge graph: those only answer "what got stored." It is a <strong>continuously evolving epistemic state</strong>: it defines objects and concepts; poses refutable hypotheses; records experimental interventions and observations; keeps, for every conclusion, its evidence sources, confidence, and scope of validity; turns failures into constraints; and lets future agents predict, question, reproduce, and rewrite past conclusions. Every clause of this definition has a physical exhibit. Before the ablation, lay the whole thing on the dissection table and verify it clause by clause:</p>
 
   <figure>
-    <svg viewBox="0 0 700 400" style="width:100%;height:auto;display:block" aria-label="The agent workflow: read first, then the act → observe → reflect loop; writes only via research-manager at closure; read-only queries via wm-retrieve/wm-predict" data-zh-aria="agent 工作流：开局先读，行动→观测→推演循环；写入只经 research-manager 在闭合时刻发生；查询走 wm-retrieve/wm-predict 只读">
+    <svg viewBox="0 0 700 400" style="width:100%;height:auto;display:block" aria-label="The full system: the agent's act → observe → reflect loop against the game environment; at closure research-manager writes what was learned into the ARA (the world model); the agent reads it back via Phase 0 and wm-retrieve/wm-predict to guide its next actions" data-zh-aria="系统全图：agent 与环境的行动→观测→推演循环；闭合时刻经 research-manager 把所学写进 ARA（世界模型）；agent 经 Phase 0 与 wm-retrieve/wm-predict 读回它来指导下一步行动">
       <defs>
         <marker id="mk-i" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#57503f"/></marker>
         <marker id="mk-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2456a6"/></marker>
@@ -592,33 +592,48 @@ Phases (each idempotent, callable separately so I can supervise):
         <marker id="mk-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#b23a2e"/></marker>
       </defs>
       <g style="font-family:var(--mono)">
+        <!-- 环境 -->
+        <rect x="6" y="57" width="124" height="88" rx="10" fill="#14161a"/>
+        <text class="zh" x="68" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#ccd5df">环境</text>
+        <text class="en" x="68" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#ccd5df">environment</text>
+        <text class="zh" x="68" y="102" text-anchor="middle" font-size="8" fill="#8a94a2">游戏世界 · 规则保密</text>
+        <text class="en" x="68" y="102" text-anchor="middle" font-size="7.5" fill="#8a94a2">game world · rules secret</text>
+        <text class="zh" x="68" y="116" text-anchor="middle" font-size="8" fill="#8a94a2">只吐帧 · 收预算和命数</text>
+        <text class="en" x="68" y="116" text-anchor="middle" font-size="7.5" fill="#8a94a2">frames · budget · lives</text>
+
         <!-- 玩家循环标题 -->
-        <text class="zh" x="12" y="30" font-size="10.5" fill="#57503f">玩家 agent 的循环</text>
-        <text class="en" x="12" y="30" font-size="10.5" fill="#57503f">the player agent's loop</text>
+        <text class="zh" x="150" y="48" font-size="10.5" fill="#57503f">玩家 agent 的循环</text>
+        <text class="en" x="150" y="48" font-size="10.5" fill="#57503f">the agent's loop</text>
 
         <!-- 循环三节点 -->
-        <rect x="96" y="57" width="128" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
-        <text class="zh" x="160" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">行动</text>
-        <text class="en" x="160" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">act</text>
-        <text class="zh" x="160" y="94" text-anchor="middle" font-size="8" fill="#57503f">按一次键 · 花预算</text>
-        <text class="en" x="160" y="94" text-anchor="middle" font-size="8" fill="#57503f">press a key · pay budget</text>
+        <rect x="150" y="57" width="120" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text class="zh" x="210" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">行动</text>
+        <text class="en" x="210" y="78" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">act</text>
+        <text class="zh" x="210" y="94" text-anchor="middle" font-size="8" fill="#57503f">按一次键 · 花预算</text>
+        <text class="en" x="210" y="94" text-anchor="middle" font-size="8" fill="#57503f">press a key · pay budget</text>
 
-        <rect x="194" y="189" width="128" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
-        <text class="zh" x="258" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">观测</text>
-        <text class="en" x="258" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">observe</text>
-        <text class="zh" x="258" y="226" text-anchor="middle" font-size="8" fill="#57503f">帧差：什么变了</text>
-        <text class="en" x="258" y="226" text-anchor="middle" font-size="8" fill="#57503f">frame diff: what changed</text>
+        <rect x="210" y="189" width="120" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text class="zh" x="270" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">观测</text>
+        <text class="en" x="270" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">observe</text>
+        <text class="zh" x="270" y="226" text-anchor="middle" font-size="8" fill="#57503f">帧差：什么变了</text>
+        <text class="en" x="270" y="226" text-anchor="middle" font-size="8" fill="#57503f">frame diff: what changed</text>
 
-        <rect x="6" y="189" width="128" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
-        <text class="zh" x="70" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">推演</text>
-        <text class="en" x="70" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">reflect</text>
-        <text class="zh" x="70" y="226" text-anchor="middle" font-size="8" fill="#57503f">纸上假设 · 离线 BFS</text>
-        <text class="en" x="70" y="226" text-anchor="middle" font-size="8" fill="#57503f">hypotheses · offline BFS</text>
+        <rect x="22" y="189" width="120" height="46" rx="10" fill="#fffdf8" stroke="#221f1a" stroke-width="1.5"/>
+        <text class="zh" x="82" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">推演</text>
+        <text class="en" x="82" y="210" text-anchor="middle" font-size="13.5" font-weight="700" fill="#221f1a">reflect</text>
+        <text class="zh" x="82" y="226" text-anchor="middle" font-size="8" fill="#57503f">纸上假设 · 离线 BFS</text>
+        <text class="en" x="82" y="226" text-anchor="middle" font-size="8" fill="#57503f">hypotheses · offline BFS</text>
+
+        <!-- 行动→环境→观测 -->
+        <path d="M 150,72 L 137,72" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <path d="M 130,126 Q 196,150 258,184" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <text class="zh" x="188" y="140" text-anchor="middle" font-size="8" fill="#57503f">新的一帧</text>
+        <text class="en" x="188" y="140" text-anchor="middle" font-size="8" fill="#57503f">a new frame</text>
 
         <!-- 循环箭头 -->
-        <path d="M 205,103 Q 258,128 258,183" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
-        <path d="M 190,226 Q 162,246 138,226" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
-        <path d="M 70,183 Q 74,112 100,88" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <path d="M 245,103 Q 278,138 272,183" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <path d="M 206,226 Q 177,246 148,226" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
+        <path d="M 82,183 Q 88,116 146,90" fill="none" stroke="#57503f" stroke-width="1.5" marker-end="url(#mk-i)"/>
 
         <!-- research-manager -->
         <rect x="324" y="120" width="128" height="58" rx="10" fill="#14161a"/>
@@ -655,7 +670,7 @@ Phases (each idempotent, callable separately so I can supervise):
         <text class="en" x="492" y="233" font-size="8.5" fill="#57503f">the full journey · append-only</text>
 
         <!-- 读路径（蓝） -->
-        <path d="M 468,70 C 384,36 298,40 216,66" fill="none" stroke="#2456a6" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#mk-b)"/>
+        <path d="M 468,74 C 420,44 348,42 268,56" fill="none" stroke="#2456a6" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#mk-b)"/>
         <text class="zh" x="342" y="30" text-anchor="middle" font-size="9.5" fill="#2456a6">Phase 0 · 开局先读，再碰手柄</text>
         <text class="en" x="342" y="30" text-anchor="middle" font-size="9.5" fill="#2456a6">Phase 0 · read first, then touch the controls</text>
         <path d="M 128,242 C 246,306 362,304 466,254" fill="none" stroke="#2456a6" stroke-width="1.5" marker-start="url(#mk-bs)" marker-end="url(#mk-b)"/>
@@ -668,8 +683,8 @@ Phases (each idempotent, callable separately so I can supervise):
         <text class="en" x="350" y="362" text-anchor="middle" font-size="9.5" fill="#57503f">when a context dies, the next one starts again from Phase 0; the will is right there in trace/ (N72, §5)</text>
       </g>
     </svg>
-    <figcaption class="zh"><b>整个 agent 工作流的读写时序。</b>开局先读（Phase 0，蓝色虚线）；随后在行动→观测→推演的循环里前进，理论免费、行动收费；卡死时不加倍试错，而是经 wm-retrieve / wm-predict 对这套状态做只读的问答（蓝色实线）。写入（红色）不发生在循环里：只在闭合时刻、只经 research-manager：有结果的进 logic/，没结果的留 staging/，每一步历程原样追加进 trace/。</figcaption>
-    <figcaption class="en"><b>When reads and writes happen in the agent workflow.</b> Read first at session start (Phase 0, dashed blue); then advance through the act → observe → reflect loop, where theory is free and actions are billed; when stuck, don't double down on trial and error; put read-only questions to this state via wm-retrieve / wm-predict (solid blue). Writes (red) never happen inside the loop: only at moments of closure, only through research-manager: outcomes enter logic/, the undecided stays in staging/, and every step of the journey is appended verbatim to trace/.</figcaption>
+    <figcaption class="zh"><b>把系统的每个组件摆在一张图上。</b>左上是<b>环境</b>：游戏世界只吐出画面帧，收走预算和命数，规则一个字不给。中间是<b>玩家 agent</b> 的循环：行动（按键、花预算）→ 观测（帧差）→ 推演（纸上假设、离线 BFS）。学到的东西不留在循环里：闭合时刻，经 <b>research-manager</b>（唯一写入者，红色）结晶进右侧的 <b>ARA</b>，也就是这份科研世界模型：有结果的进 logic/，没结果的留 staging/，每一步历程原样追加进 trace/。蓝色是世界模型反过来指导行动的两条读路：开局 <b>Phase 0</b> 先通读再碰手柄（虚线）；卡死时经 <b>wm-retrieve / wm-predict</b> 做只读问答（实线），答案落成下一步的动作。一个 context 耗尽，下一个从 Phase 0 重新读起。</figcaption>
+    <figcaption class="en"><b>Every component of the system on one map.</b> Top left, the <b>environment</b>: the game world emits nothing but frames, collects budget and lives, and gives away not one word of rules. In the middle, the <b>player agent</b>'s loop: act (press a key, pay budget) → observe (frame diff) → reflect (hypotheses on paper, offline BFS). What it learns doesn't stay in the loop: at moments of closure it crystallizes, through <b>research-manager</b> (the sole writer, red), into the <b>ARA</b> on the right, the research world model itself: outcomes enter logic/, the undecided stays in staging/, every step of the journey is appended verbatim to trace/. The blue paths are the world model steering action back: at session start, <b>Phase 0</b>, read it all before touching the controls (dashed); when stuck, put read-only questions to it via <b>wm-retrieve / wm-predict</b> (solid), and the answers become the next moves. When a context runs out, the next one starts reading again from Phase 0.</figcaption>
   </figure>
 
   <div class="wb">
