@@ -190,8 +190,8 @@ html.en .mirror{line-height:1.75}
   <p class="setup zh" style="font-size:15px;color:var(--ink2);margin-top:22px">考场是 ARC-AGI-3 的互动谜题 ls20：规则保密，行动收费，犯错赔命，AI 裸探索的通关率不到 1%。这个 agent 一边玩、一边把摸到的法则写成自己的科研世界模型（一份 ARA），靠它通完七关；卡死的最后一关，它回头查询这套世界模型，然后 63 步、零死亡一次通过——"one shot"说的就是这次执行。</p>
   <p class="setup en" style="font-size:15px;color:var(--ink2);margin-top:22px">The exam room is ls20, an interactive puzzle from ARC-AGI-3: rules secret, every action billed, mistakes paid in lives — AI on bare exploration clears it less than 1% of the time. This agent played while writing the laws it touched into a research world model of its own (an ARA), and cleared all seven levels with it; on the final level that had it stuck, it went back and queried that model, then passed in 63 steps with zero deaths — that run is the "one shot."</p>
 
-  <p class="setup zh" style="margin-top:44px">做研究这几年，我总觉得那种说不清道不明的"直觉"，拆开看就是一堆踩坑踩出来的规则——只是人脑记不下这本明细账，只好压成黑盒。六月底我们试了一件事：把一个 agent 丢进一个它保证没见过的世界，让它一边玩，一边把摸到的规律显式地写下来——写进一份 ARA 里，也就是这篇文章说的科研世界模型。它通了全部七关。</p>
-  <p class="setup en" style="margin-top:44px">After a few years of doing research, I've come to think that the murky thing we call "intuition" is really just a pile of rules learned by stepping in pits — the human brain can't keep the itemized ledger, so it compresses it all into a black box. At the end of June we tried something: drop an agent into a world it was guaranteed never to have seen and have it write down, explicitly, every regularity it touched while playing — into an ARA, the thing this post calls its research world model. It cleared all seven levels.</p>
+  <p class="setup zh" style="margin-top:44px">做研究这几年，我总觉得那种说不清道不明的"直觉"，拆开看就是一堆踩坑踩出来的规则——只是人脑记不下这本明细账，只好压成黑盒。六月底我们试了一件事：把一个 agent 丢进一个它保证没见过的世界，让它一边玩，一边把摸到的规律显式地写下来，写进一份 ARA 里。它通了全部七关。</p>
+  <p class="setup en" style="margin-top:44px">After a few years of doing research, I've come to think that the murky thing we call "intuition" is really just a pile of rules learned by stepping in pits — the human brain can't keep the itemized ledger, so it compresses it all into a black box. At the end of June we tried something: drop an agent into a world it was guaranteed never to have seen and have it write down, explicitly, every regularity it touched while playing, into an ARA. It cleared all seven levels.</p>
   <p class="setup zh">然后是对照：克隆同一个模型，拿走它写的东西，换成前六关详细到坐标和按键的通关答案，让它打同样没见过的第七关。同额算力下，它走了 5,168 步、死了 54 次，进展是零。</p>
   <p class="setup en">Then the control: clone the same model, take away everything it wrote, hand the clone walkthrough answers for the first six levels — specific down to coordinates and key presses — and set it on the same unseen seventh level. On the same compute, it walked 5,168 steps, died 54 times, and made zero progress.</p>
   <p class="setup zh">差别不在模型，也不在答案的质量。这篇文章想搞清楚的是：它写下来的那份东西里，到底有什么。</p>
@@ -287,8 +287,8 @@ middle row (2 states); L2's switch (<span class="hot">R9C9</span>) is a 4-state 
   <p class="insight zh">命名，是把混沌切成可以思考的零件。</p>
   <p class="insight en">Naming is cutting chaos into parts you can think with.</p>
 
-  <p class="zh">人类的智慧开始累积，不是哪一代人突然变聪明了，而是我们发明了语言——经验第一次可以离开产生它的那颗脑袋。科学能往前走，靠的就是传下去。它在这个小世界里重演的就是这一步：先有词，才有可以传下去的理解。</p>
-  <p class="en">Human wisdom started to pile up not because some generation suddenly got smarter, but because we invented language — for the first time, experience could leave the head that produced it. Science moves forward by being handed down. And that's the step it re-enacted in this little world: first the words, then an understanding you can pass on.</p>
+  <p class="zh">人类的智慧开始累积，不是哪一代人突然变聪明了，而是我们发明了语言——经验第一次可以离开产生它的那颗脑袋。它在这个小世界里重演的就是这一步：先有词，才有可以传下去的理解。</p>
+  <p class="en">Human wisdom started to pile up not because some generation suddenly got smarter, but because we invented language — for the first time, experience could leave the head that produced it. That's the step it re-enacted in this little world: first the words, then an understanding you can pass on.</p>
 
   <p class="zh">不过到这里为止，它写的东西跟一本旅行日记还没什么两样：看见，记下。变化出现在第五关——它发明的词，开始自己做数学。</p>
   <p class="en">Up to this point, though, what it wrote was still nothing more than a travel diary: see, record. That changes at level 5 — the words it invented start doing mathematics on their own.</p>
@@ -373,8 +373,8 @@ verified live to reach 101/110/011, then delivered → levels 4→5</pre>
   <h2 class="zh"><span class="no">§4</span>先自信地错，再自己抓住</h2>
   <h2 class="en"><span class="no">§4</span>Err with confidence, then catch yourself</h2>
 
-  <p class="zh">先说清楚一件事：这个世界模型不是句句真理。它最好看的几页，恰恰是错的那几页。</p>
-  <p class="en">Let's get one thing straight: this world model is not true line by line. Its best pages are precisely the wrong ones.</p>
+  <p class="zh">这个世界模型不是句句真理——它最好看的几页，恰恰是错的那几页。</p>
+  <p class="en">This world model is not true line by line — its best pages are precisely the wrong ones.</p>
 
   <p class="zh">前四关里，它好几次看到方块"瞬移"——明明在这里，一步之后出现在别处。它很自然地假设了传送门，甚至开始给传送门画表。然后有一天，它把死亡记录和"瞬移"记录摆在一起，发现两边一一对上了：</p>
   <p class="en">Across the first four levels it kept seeing the block "teleport" — clearly here, then somewhere else one step later. Naturally enough it hypothesized portals, and even started tabulating them. Then one day it laid the death records next to the "teleport" records, and they lined up one for one:</p>
@@ -399,8 +399,8 @@ portal-trapped</pre>
     <div class="tr zh">第六关有传送门（修正 O22 号观察"未确认传送门"）——右半区被传送门困住。</div>
   </div>
 
-  <p class="zh">看括号。翻案的时候，它给被翻的旧结论标了编号。<strong>它开始给自己的错误编档案。</strong>"没有传送门"没有被删掉——它还留在第 1–4 关的条目里，边界画得清清楚楚：那句话在它的适用范围内，至今是对的。</p>
-  <p class="en">Look at the parenthesis. Overturning the old conclusion, it cited the conclusion being overturned by number. <strong>It had started keeping files on its own errors.</strong> "No portals" was not deleted — it still sits in the entries for levels 1–4 with its boundary drawn sharp: within its stated scope, that sentence is correct to this day.</p>
+  <p class="zh">看括号。翻案的时候，它给被翻的旧结论标了编号——<strong>它在给自己的错误编档案。</strong>"没有传送门"没有被删掉——它还留在第 1–4 关的条目里，边界画得清清楚楚：那句话在它的适用范围内，至今是对的。</p>
+  <p class="en">Look at the parenthesis. Overturning the old conclusion, it cited the conclusion being overturned by number — <strong>it was keeping files on its own errors.</strong> "No portals" was not deleted — it still sits in the entries for levels 1–4 with its boundary drawn sharp: within its stated scope, that sentence is correct to this day.</p>
 
   <p class="zh">还有一个错，一句话就能讲完：底部预算条右端那几个 <code style="font-family:var(--mono);font-size:14px">%</code> 记号，它最早猜是"目标标记"，猜错了——那是命数。它一直没死，就一直没机会看见这个计数器动。<em>幸存者是看不见幸存者偏差的，直到它死了几次。</em></p>
   <p class="en">One more mistake, tellable in a sentence: the few <code style="font-family:var(--mono);font-size:14px">%</code> marks at the right end of the budget bar it first guessed were "goal markers." Wrong — they were lives. As long as it never died, it never got to watch that counter move. <em>A survivor can't see survivorship bias until it has died a few times.</em></p>
@@ -457,8 +457,8 @@ L4 win.</pre>
   <p class="zh">它举着灯把屋子摸了一遍，然后撞上了那个死局：钥匙盒锁在一个口袋里，四面是墙，传送门也进不去——口袋只有锁开了才开；而按照它自己的 C07 定律，开锁需要先读到目标图案，目标图案又在钥匙盒上。要开门得先进门。侦察了 515 步之后，这个 context 的窗口见了底。它没有解开这一关。</p>
   <p class="en">It carried the lamp through the whole house, then hit the deadlock: the key-box is locked inside a pocket, walled on every side, unreachable even by portal — the pocket only opens once the lock is open; and by its own law C07, opening the lock requires first reading the target pattern, which sits on the key-box. To get through the door you must already be through the door. After 515 steps of reconnaissance, this context's window ran out. It did not solve the level.</p>
 
-  <p class="zh">但它留了遗嘱——一份写给下一个 session 的交接计划：</p>
-  <p class="en">But it left a will — a handoff plan written for the next session:</p>
+  <p class="zh">但它留了一份遗嘱，写给下一个 session：</p>
+  <p class="en">But it left a will, written for the next session:</p>
 
   <div class="wb">
     <div class="bar dead"><i></i><span class="zh">ara-ls20/trace/exploration_tree.yaml · N72 · dead_end · 原样引用（节选）</span><span class="en">ara-ls20/trace/exploration_tree.yaml · N72 · dead_end · quoted verbatim (excerpt)</span></div>
@@ -727,8 +727,8 @@ press — step it several times to learn its full cycle before planning</span></
     <figcaption class="en"><b>When reads and writes happen in the agent workflow.</b> Read first at session start (Phase 0, dashed blue); then advance through the act–observe–reflect loop, where theory is free and actions are billed; when stuck, don't double down on trial and error — put read-only questions to this state via wm-retrieve / wm-predict (solid blue). Writes (red) never happen inside the loop: only at moments of closure, only through research-manager — outcomes enter logic/, the undecided stays in staging/, and every step of the journey is appended verbatim to trace/.</figcaption>
   </figure>
 
-  <p class="zh">现在你知道这套认识论状态长什么样、也知道它是怎么长出来的了。下一节的消融拿走红色的部分——只留下绿色的标准答案。</p>
-  <p class="en">Now you know what this epistemic state looks like, and how it grew. The next section's ablation takes away everything in red — leaving only the standard answers in green.</p>
+  <p class="zh">下一节的消融拿走红色的部分，只留下绿色的标准答案。</p>
+  <p class="en">The next section's ablation takes away everything in red, leaving only the standard answers in green.</p>
 </section>
 
 <p class="zh" style="text-align:center;margin:56px auto;max-width:640px;padding:18px 22px;border:1px solid var(--line);border-radius:10px;background:#fffdf8;font-size:15.5px">这 75 个节点可以逐个点开：<a href="https://raw.githack.com/ShokuhouMisak1/locksmith-blog/main/trajectory.html">交互式研究树回放 ↗</a>&nbsp;&nbsp;·&nbsp;&nbsp;双臂的完整逐步轨迹数据集：<a href="https://huggingface.co/datasets/ShokuhouMisak1/arc-agi3-ls20-agent-trajectories">HuggingFace ↗</a></p>
@@ -741,7 +741,7 @@ press — step it several times to learn its full cycle before planning</span></
   <h2 class="zh"><span class="no">§6</span>双胞胎对照</h2>
   <h2 class="en"><span class="no">§6</span>The twin control</h2>
 
-  <p class="zh">读到这里，还剩一个必须排除的解释：也许它只是模型强。检验的办法是消融——拿走一个部件，看系统还转不转：<strong>克隆同一个模型，拿走它写下的全部理解，只留给它前六关的标准答案。</strong>一个带着理解，一个带着答案，走进同一间考场。</p>
+  <p class="zh">还剩一个必须排除的解释：也许它只是模型强。检验的办法是消融——拿走一个部件，看系统还转不转：<strong>克隆同一个模型，拿走它写下的全部理解，只留给它前六关的标准答案。</strong>一个带着理解，一个带着答案，走进同一间考场。</p>
   <p class="en">One explanation still has to be ruled out: maybe the model is just strong. The test is an ablation — take one part away and see whether the system still runs: <strong>clone the same model, take away all the understanding it wrote, and leave it only the standard answers for the first six levels.</strong> One walks into the exam room carrying understanding; the other, carrying answers.</p>
 
   <p class="zh">先把实验纪律说清楚：同一个模型，同一副游戏身体，以完全相同的方式重放前六关抵达第七关。唯一的变量，是它带进这一关的东西。它带的"答案"也不是敷衍——是它哥哥亲手写的、具体到坐标和按键的通关配方：</p>
@@ -882,8 +882,8 @@ is <span class="hot">cross-game, not yet warranted</span>).</pre>
   <h2 class="zh"><span class="no">§8</span>传下去</h2>
   <h2 class="en"><span class="no">§8</span>Pass it on</h2>
 
-  <p class="zh">那个世界模型现在放在网上<sup><a href="#fn4">4</a></sup>，一字未改：15 条 claim、7 份配方、75 个研究节点、19 个死胡同，连同每一次翻案和那两条被否证的定律。任何人都可以翻开它——任何 agent 也可以。事实上它已经被翻开过了：赢下第七关的那个 context，读的就是前面几个 context 写下的它。</p>
-  <p class="en">That world model now sits on the web<sup><a href="#fn4">4</a></sup>, unchanged by a single character: 15 claims, 7 recipes, 75 research nodes, 19 dead ends, together with every reversal and the two refuted laws. Anyone can open it — and so can any agent. In fact it has already been opened: the context that won level 7 was reading the copy written by the contexts before it.</p>
+  <p class="zh">那个世界模型现在放在网上<sup><a href="#fn4">4</a></sup>，一字未改：15 条 claim、7 份配方、75 个研究节点、19 个死胡同，连同每一次翻案和那两条被否证的定律。任何人都可以翻开它——任何 agent 也可以。它已经被翻开过了：赢下第七关的那个 context，读的就是前面几个 context 写下的它。</p>
+  <p class="en">That world model now sits on the web<sup><a href="#fn4">4</a></sup>, unchanged by a single character: 15 claims, 7 recipes, 75 research nodes, 19 dead ends, together with every reversal and the two refuted laws. Anyone can open it — and so can any agent. It has already been opened: the context that won level 7 was reading the copy written by the contexts before it.</p>
 
   <p class="zh">它没有一个字是人写的。介绍它的这篇文章，还是人写的；往后，恐怕连这样的文章都会由 agent 自己来写。人剩下的位置，是那个下跨域判断的裁判：决定哪些问题值得进考场，哪些结论值得被相信，以及像这场运行的管理进程那样，在第五个正例面前判断一句"还不够"。</p>
   <p class="en">Not one character of it was written by a human. The post introducing it still was, though before long even posts like this will likely be written by agents themselves. The seat left for humans is the referee making the cross-domain calls: which questions deserve an exam room, which conclusions deserve belief, and, like this run's managing process, the judgment to look at a fifth positive instance and still say "not yet enough."</p>
